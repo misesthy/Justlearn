@@ -63,12 +63,11 @@ class TicketController extends Controller
                 $query->whereHas('services', function ($query) { 
                     $query->whereHas('users', function ($query) {
                         $query->where('users.id', auth()->user()->id);
-                        // dd($query);
                     });
                 });
             })
-            ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
-                $query->limit('user_id', auth()->user()->id);
+            ->when(auth()->user()->hasRole('agent'), function (Builder $query) {
+                $query->where('user_id','!=', auth()->user()->id);
             })
             
             ->latest()
