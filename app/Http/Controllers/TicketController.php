@@ -35,22 +35,46 @@ class TicketController extends Controller
             ->when($request->has('assigned_to'), function (Builder $query) use ($request) {
                 return $query->where('services',$request->input('services') );
             })
-            ->when(auth()->user()->hasRole('agent'), function (Builder $query) {
-                $query->whereHas('services', function ($query) { 
-                    $query->whereHas('users', function ($query) {
-                        $query->where('users.id', auth()->user()->id);
-                    });
-                    // dd($query);
-                });
+            ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
+                $query->where('user_id', auth()->user()->id);
             })
-            // ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
-            //     $query->where('user_id', auth()->user()->id);
-            // })
-            
             ->latest()
             ->paginate();
 
         return view('tickets.index', compact('tickets'));
+    }
+
+    public function receive(Request $request): View
+    { 
+        $tickets = Ticket::with('services', 'categories', 'priority','user')
+            ->when($request->has('status'), function (Builder $query) use ($request) {
+                return $query->where('status', $request->input('status'));
+            })
+            ->when($request->has('priority'), function (Builder $query) use ($request) {
+                return $query->withPriority($request->input('priority'));
+            })
+            ->when($request->has('category'), function (Builder $query) use ($request) {
+                return $query->whereRelation('categories', 'id', $request->input('category'));
+            })
+            ->when($request->has('assigned_to'), function (Builder $query) use ($request) {
+                return $query->where('services',$request->input('services') );
+            })
+            ->when(auth()->user()->hasRole('agent'), function (Builder $query) {
+                $query->whereHas('services', function ($query) { 
+                    $query->whereHas('users', function ($query) {
+                        $query->where('users.id', auth()->user()->id);
+                        // dd($query);
+                    });
+                });
+            })
+            ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
+                $query->limit('user_id', auth()->user()->id);
+            })
+            
+            ->latest()
+            ->paginate();
+
+        return view('tickets.ticket', compact('tickets'));
     }
 
     public function create(): View
@@ -114,9 +138,9 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket): View
     {
-        $this->authorize('view', $ticket);
+        // $this->authorize('view', $ticket);
 
-        $ticket->load(['media', 'messages' => fn ($query) => $query->latest()]);
+        // $ticket->load(['media', 'messages' => fn ($query) => $query->latest()]);
 
         return view('tickets.show', compact('ticket'));
     }
@@ -130,7 +154,7 @@ class TicketController extends Controller
 
     public function edit(Ticket $ticket): View
     {
-        $this->authorize('update', $ticket);
+        // $this->authorize('update', $ticket);
 
         $categories = Category::all()->pluck('name', 'id');
         $priority = Priority::all()->pluck('name', 'id');
@@ -143,7 +167,7 @@ class TicketController extends Controller
 
     public function update(TicketRequest $request, Ticket $ticket)
     {
-        $this->authorize('update', $ticket);
+        // $this->authorize('update', $ticket);
 
         $ticket->update($request->only('title', 'message', 'status', 'priority', 'assigned_to'));
 
@@ -153,11 +177,11 @@ class TicketController extends Controller
             Service::find($request->input('assigned_to'))->notify(new AssignedTicketNotification($ticket));
         }
 
-        if (!is_null($request->input('attachments')[0])) {
-            foreach ($request->input('attachments') as $file) {
-                $ticket->addMediaFromDisk($file, 'public')->toMediaCollection('tickets_attachments');
-            }
-        }
+        // if (!is_null($request->input('attachments')[0])) {
+        //     foreach ($request->input('attachments') as $file) {
+        //         $ticket->addMediaFromDisk($file, 'public')->toMediaCollection('tickets_attachments');
+        //     }
+        // }
 
         return redirect()->route('tickets.index');
     }
@@ -180,7 +204,7 @@ class TicketController extends Controller
 
     public function destroy(Ticket $ticket)
     {
-        $this->authorize('delete', $ticket);
+        // $this->authorize('delete', $ticket);
 
         $ticket->delete();
 
@@ -191,18 +215,18 @@ class TicketController extends Controller
     {
         $path = [];
 
-        if ($request->file('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $path = $file->store('tmp', 'public');
-            }
-        }
+        // if ($request->file('attachments')) {
+        //     foreach ($request->file('attachments') as $file) {
+        //         $path = $file->store('tmp', 'public');
+        //     }
+        // }
 
         return $path;
     }
 
     public function close(Ticket $ticket)
     {
-        $this->authorize('update', $ticket);
+        // $this->authorize('update', $ticket);
 
         $ticket->close();
 
@@ -211,7 +235,7 @@ class TicketController extends Controller
 
     public function reopen(Ticket $ticket)
     {
-        $this->authorize('update', $ticket);
+        // $this->authorize('update', $ticket);
 
         $ticket->reopen();
 
@@ -220,7 +244,7 @@ class TicketController extends Controller
 
     public function archive(Ticket $ticket)
     {
-        $this->authorize('update', $ticket);
+        // $this->authorize('update', $ticket);
 
         $ticket->archive();
 

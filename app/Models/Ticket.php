@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\media;
 use App\Models\status;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\Priority;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

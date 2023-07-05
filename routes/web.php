@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('users', UserController::class)->name('essai');
 
     // Route::get('/tickets/{user}', [TicketController::class, 'view'])->name('tickets.view');
+    Route::get('tickets/ticket_receive', [TicketController::class, 'receive'])->name('tickets.ticket');
     Route::post('tickets/upload', [TicketController::class, 'upload'])->name('tickets.upload');
     Route::patch('tickets/{ticket}/close', [TicketController::class, 'close'])->name('tickets.close');
     Route::post('tickets/storage', [TicketController::class, 'storage'])->name('tickets.storage');

@@ -143,7 +143,7 @@
                 
                 <li class="menu-item {{ request()->is('tickets') ? 'active': '' }}">
                     <a href="{{ route('tickets.index') }}" class="menu-link">
-                        <div data-i18n="All tickets">All Ticket</div>
+                        <div data-i18n="All tickets">My Ticket</div>
                     </a>
                 </li>
                 @hasrole('admin')
@@ -165,8 +165,8 @@
                 @endhasrole
                 @hasrole('agent|user')
                 <li class="menu-item {{ request()->is('log') ? 'active': '' }}">
-                    <a href="{{ route('tickets.index') }}" class="menu-link">
-                        <div data-i18n="Ticket user">Ticket User</div>
+                    <a href="{{ route('tickets.ticket') }}" class="menu-link">
+                        <div data-i18n="Ticket user">Ticket Receive</div>
                     </a>
                 </li>
                 @endhasrole
