@@ -44,6 +44,12 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function feedbacks(): HasMany
+    {
+        return $this->hasMany(Status::class, 'status_id');
+    }
+
+
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class);

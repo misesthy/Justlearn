@@ -26,6 +26,12 @@ class Feedback extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+
+     public function user(): BelongsTo
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
     public function ticket(): BelongsTo
     {
         return $this->belongsTo(Ticket::class);

@@ -19,12 +19,12 @@ class FeedbackController extends Controller
     public function index(Request $request): View
     {
         $feedbacks = Feedback::with('user', 'categories', 'assignedToUser')
-            ->when($request->has('category'), function (Builder $query) use ($request) {
-                return $query->whereRelation('categories', 'id', $request->input('category'));
-            })
-            ->when(auth()->user()->hasRole('agent'), function (Builder $query) {
-                $query->where('assigned_to', auth()->user()->id);
-            })
+            // ->when($request->has('category'), function (Builder $query) use ($request) {
+            //     return $query->whereRelation('categories', 'id', $request->input('category'));
+            // })
+            // ->when(auth()->user()->hasRole('agent'), function (Builder $query) {
+            //     $query->where('assignedToUser', auth()->user()->id);
+            // })
             ->when(auth()->user()->hasRole('user'), function (Builder $query) {
                 $query->where('user_id', auth()->user()->id);
             })
@@ -36,9 +36,8 @@ class FeedbackController extends Controller
 
     public function create(): View
     {
-
-        $ticket = Ticket::findOrFail('ticket_id');
-
+        $ticket = Ticket::findOrFail('id');
+        // dd($ticket);
         return view('feedbacks.create', compact('ticket'));
     }
 
@@ -60,7 +59,7 @@ class FeedbackController extends Controller
 
     public function show(Feedback $feedback): View
     {
-        $this->authorize('view', $feedback);
+        // $this->authorize('view', $feedback);
 
         $feedback->load(['media', 'messages' => fn ($query) => $query->latest()]);
 
@@ -69,9 +68,9 @@ class FeedbackController extends Controller
 
     public function edit(Feedback $feedback): View
     {
-        $this->authorize('update', $feedback);
+        // $this->authorize('update', $feedback);
 
-        $labels = Label::visible()->pluck('name', 'id');
+        // $labels = Label::visible()->pluck('name', 'id');
 
         $categories = Category::visible()->pluck('name', 'id');
 
@@ -82,7 +81,7 @@ class FeedbackController extends Controller
 
     public function update(FeedbackRequest $request, Feedback $feedback)
     {
-        $this->authorize('update', $feedback);
+        // $this->authorize('update', $feedback);
 
         $feedback->update($request->only('title', 'message', 'status', 'priority', 'assigned_to'));
 
@@ -105,7 +104,7 @@ class FeedbackController extends Controller
 
     public function destroy(Feedback $feedback)
     {
-        $this->authorize('delete', $feedback);
+        // $this->authorize('delete', $feedback);
 
         $feedback->delete();
 
@@ -127,7 +126,7 @@ class FeedbackController extends Controller
 
     public function close(Feedback $feedback)
     {
-        $this->authorize('update', $feedback);
+        // $this->authorize('update', $feedback);
 
         $feedback->close();
 
@@ -136,7 +135,7 @@ class FeedbackController extends Controller
 
     public function reopen(Feedback $feedback)
     {
-        $this->authorize('update', $feedback);
+        // $this->authorize('update', $feedback);
 
         $feedback->reopen();
 
@@ -145,7 +144,7 @@ class FeedbackController extends Controller
 
     public function archive(Feedback $feedback)
     {
-        $this->authorize('update', $feedback);
+        // $this->authorize('update', $feedback);
 
         $feedback->archive();
 

@@ -16,6 +16,7 @@ class CreateFeedbackTable extends Migration
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ticket_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->text('message');
             $table->timestamps();

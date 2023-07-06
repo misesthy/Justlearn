@@ -12,11 +12,13 @@
             </h4>
 
             <div class="mb-4 flex justify-between">
-                <a class="btn btn-success"
-                {{-- class="rounded-lg border border-transparent bg-purple-600 px-4 py-2 text-center text-sm font-medium leading-5 text-white transition-colors duration-150 hover:bg-purple-700 focus:outline-none focus:ring active:bg-purple-600"  --}}
-                href="{{ route('tickets.create') }}">
-                    {{ __('Create') }}
-                </a>
+                @role('agent|user')
+                    <a class="btn btn-success"
+                    {{-- class="rounded-lg border border-transparent bg-purple-600 px-4 py-2 text-center text-sm font-medium leading-5 text-white transition-colors duration-150 hover:bg-purple-700 focus:outline-none focus:ring active:bg-purple-600"  --}}
+                    href="{{ route('tickets.create') }}">
+                        {{ __('Create') }}
+                    </a>
+                @endrole
         {{-- <div class="flex space-x-2">
             <select class="block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50" name="status" id="status" onChange="window.location.href=this.value">
                 <option value="{{ clearQueryString('status') }}">-- SELECT STATUS --</option>

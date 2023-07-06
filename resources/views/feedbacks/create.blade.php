@@ -1,14 +1,14 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
+    <x-slot name="header">
         {{ __('Create feedback' ) }}
-    </x-slot> --}}
+    </x-slot>
 
  <!-- Content wrapper -->
  <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <h2 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">Tickets /</span> Create Ticket
+            <span class="text-muted fw-light">Feedbacks /</span> Create Feedback
         </h2>
 
 

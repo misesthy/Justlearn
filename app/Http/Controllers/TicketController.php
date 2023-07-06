@@ -185,20 +185,29 @@ class TicketController extends Controller
         return redirect()->route('tickets.index');
     }
 
-    public function replyToTicket(Request $request, $ticketId)
+    public function replyToTicket(Request $request, $id)
     {
-        $ticket = Ticket::findOrFail($ticketId);
-        $message = $request->input('message');
+        // Valider les données du formulaire de réponse
+    $this->validate($request, [
+        'message' => 'required',
+    ]);
 
-        // Créer une nouvelle réponse
-        $feedback = new Feedback();
-        $feedback->message = $message;
-        $feedback->ticket()->associate($ticket);
-        $feedback->save();
+    // Récupérer le ticket correspondant à l'ID
+    $ticket = Ticket::findOrFail($id);
+
+    // Créer une nouvelle réponse
+    $feedback = new Feedback();
+    $feedback->message = $request->input('message');
+    $feedback->ticket_id = $ticket->id;
+    $feedback->user_id = auth()->user()->id;
+    $feedback->save();
+
+    // Rediriger l'utilisateur vers la page du ticket avec un message de succès
+    return redirect()->route('feedbacks.show', $ticket->id)->with('success', 'La réponse a été ajoutée avec succès.');
 
         // Vous pouvez également effectuer d'autres actions ici, comme envoyer une notification aux utilisateurs concernés
 
-        return response()->json(['message' => 'Réponse envoyée avec succès']);
+        // return response()->json(['message' => 'Réponse envoyée avec succès']);
     }
 
     public function destroy(Ticket $ticket)

@@ -52,11 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::post('tickets/storage', [TicketController::class, 'storage'])->name('tickets.storage');
     Route::patch('tickets/{ticket}/reopen', [TicketController::class, 'reopen'])->name('tickets.reopen');
     Route::patch('tickets/{ticket}/archive', [TicketController::class, 'archive'])->name('tickets.archive');
-    Route::post('tickets/{ticketId}/reply', [TicketController::class, 'replyToTicket'])->name('tickets.reply');
+    // Route::post('tickets/{id}/reply', [TicketController::class, 'replyToTicket'])->name('tickets.reply');
     Route::resource('tickets', TicketController::class);
 
     Route::resource('services', ServiceController::class);
 
+    Route::post('/tickets/{id}/reply', 'TicketController@replyToTicket')->name('tickets.reply');
+    // Route::post('feedbacks/{ticketId}/reply', [TicketController::class, 'replyToTicket'])->name('tickets.replyToTicket');
     Route::get('feedbacks/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
     Route::get('feedbacks/index', [FeedbackController::class, 'index'])->name('feedbacks.index');
     Route::get('feedbacks/{id}/show', [FeedbackController::class, 'show'])->name('feedbacks.show');

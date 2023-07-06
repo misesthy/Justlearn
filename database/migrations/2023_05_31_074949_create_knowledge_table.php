@@ -20,6 +20,7 @@ class CreateKnowledgeTable extends Migration
             $table->longText('short_text')->nullable();
             $table->longText('full_text');
             $table->string('file');
+            $table->integer('priority');
             $table->timestamps();
             $table->softDeletes();
         });

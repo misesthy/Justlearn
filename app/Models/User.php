@@ -62,6 +62,12 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class);
     }
 
+    public function feedbacks(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);

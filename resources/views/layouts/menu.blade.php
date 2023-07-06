@@ -140,13 +140,12 @@
                 <div data-i18n="Ticket"> Ticket</div>
             </a>
             <ul class="menu-sub">
-                
+                @hasrole('admin')
                 <li class="menu-item {{ request()->is('tickets') ? 'active': '' }}">
                     <a href="{{ route('tickets.index') }}" class="menu-link">
-                        <div data-i18n="All tickets">My Ticket</div>
+                        <div data-i18n="All tickets">All Ticket</div>
                     </a>
                 </li>
-                @hasrole('admin')
                 <li class="menu-item {{ request()->is('open') ? 'active': '' }}">
                     <a href="extended-ui-text-divider.html" class="menu-link">
                         <div data-i18n="Ticket Open">Ticket Opened</div>
@@ -164,6 +163,11 @@
                 </li> --}}
                 @endhasrole
                 @hasrole('agent|user')
+                <li class="menu-item {{ request()->is('tickets') ? 'active': '' }}">
+                    <a href="{{ route('tickets.index') }}" class="menu-link">
+                        <div data-i18n="All tickets">My Ticket</div>
+                    </a>
+                </li>
                 <li class="menu-item {{ request()->is('log') ? 'active': '' }}">
                     <a href="{{ route('tickets.ticket') }}" class="menu-link">
                         <div data-i18n="Ticket user">Ticket Receive</div>
