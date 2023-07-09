@@ -8,7 +8,7 @@
         {{ $ticket->title }}
     </x-slot>
 
-    {{-- @hasanyrole('admin|agent')
+    @hasanyrole('admin|agent')
         <div class="mb-4 flex justify-end">
             @if($ticket->isOpen())
                 <form action="{{ route('tickets.close', $ticket) }}" method="POST" style="display: inline-block;">
@@ -36,8 +36,7 @@
                 </form>
             @endif
         </div>
-    @endhasanyrole --}}
-
+    @endhasanyrole
     <div class="space-y-4">
         <div class="mb-3 col-md-3 rounded-lg bg-white p-4 shadow-xs">
             <p class="text-gray-600">
@@ -106,7 +105,7 @@
                 @endforeach
             </div>
         @endif --}}
-        {{-- <div class="min-w-0 rounded-lg bg-white p-4 shadow-xs space-y-4">
+        <div class="min-w-0 rounded-lg bg-white p-4 shadow-xs space-y-4">
             @if(!$ticket->isArchived())
                 <form action="{{ route('message.store', $ticket) }}" method="POST">
                     @csrf
@@ -131,7 +130,7 @@
                     No messages found.
                 </p>
             @endforelse
-        </div> --}}
+        </div>
     </div>
 </div>
 <!-- / Content -->

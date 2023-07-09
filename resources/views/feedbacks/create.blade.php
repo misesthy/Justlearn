@@ -14,7 +14,7 @@
 
 <div class="rounded-lg bg-white p-4 shadow-md">
 
-    <form action="{{ route('tickets.reply', $ticket->id) }}" method="POST">
+    <form action="{{ route('feedbacks.store', $ticket) }}" method="POST">
         @csrf
 
         <div>

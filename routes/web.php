@@ -59,14 +59,14 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/tickets/{id}/reply', 'TicketController@replyToTicket')->name('tickets.reply');
     // Route::post('feedbacks/{ticketId}/reply', [TicketController::class, 'replyToTicket'])->name('tickets.replyToTicket');
-    Route::get('feedbacks/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
+    Route::get('feedbacks/{id}/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
     Route::get('feedbacks/index', [FeedbackController::class, 'index'])->name('feedbacks.index');
     Route::get('feedbacks/{id}/show', [FeedbackController::class, 'show'])->name('feedbacks.show');
-    Route::post('feedbacks/store', [FeedbackController::class, 'store'])->name('feedbacks.store');
+    Route::post('feedbacks/{id}/store', [FeedbackController::class, 'store'])->name('feedbacks.store');
     Route::get('feedbacks/{id}/edit', [FeedbackController::class, 'edit'])->name('feedbacks.edit');
     Route::put('feedbacks/{id}/update', [FeedbackController::class, 'update'])->name('feedbacks.update');
     Route::delete('feedbacks/{id}/destroy', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
-    Route::resource('feedbacks', FeedbackController::class);
+    // Route::resource('feedbacks', FeedbackController::class);
 
     // Route::get('feedbacks', KnowledgeController::class);
 

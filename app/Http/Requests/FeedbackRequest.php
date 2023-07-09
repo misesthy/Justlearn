@@ -14,7 +14,8 @@ class FeedbackRequest extends FormRequest
         return [
             'title'       => ['required', 'string'],
             'message'     => ['required', 'string'],
-            'assigned_to' => ['nullable', 'integer', 'exists:tickets,id'],
+            'ticket_id' => ['nullable', 'integer', 'exists:tickets,id'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
             'attachments' => ['nullable', 'array'],
         ];
     }

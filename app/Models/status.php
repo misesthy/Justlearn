@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class status extends Model
+class Status extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -27,9 +27,13 @@ class status extends Model
         'updated_at',
         'deleted_at',
     ];
+    
+    const OPEN = 'open';
+    const CLOSE = 'close';
+    const ARCHIVED = 'archived';
 
-    public function tickets(): HasMany
-    {
-        return $this->hasMany(Ticket::class);
-    }
+    // public function tickets(): HasMany
+    // {
+    //     return $this->hasMany(Ticket::class);
+    // }
 }

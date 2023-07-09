@@ -18,7 +18,7 @@ class FeedbackController extends Controller
 {
     public function index(Request $request): View
     {
-        $feedbacks = Feedback::with('user', 'categories', 'assignedToUser')
+        $feedbacks = Feedback::with('user')
             // ->when($request->has('category'), function (Builder $query) use ($request) {
             //     return $query->whereRelation('categories', 'id', $request->input('category'));
             // })
@@ -34,34 +34,46 @@ class FeedbackController extends Controller
         return view('feedbacks.index', compact('feedbacks'));
     }
 
-    public function create(): View
+    public function create($id): View
     {
-        $ticket = Ticket::findOrFail('id');
-        // dd($ticket);
+        $ticket = Ticket::findOrFail($id);
         return view('feedbacks.create', compact('ticket'));
     }
 
-    public function store(Request $request, $ticketId)
+    public function store(Request $request, $id)
     {
-        $ticket = Ticket::findOrFail($ticketId);
-        $message = $request->input('message');
+        // Valider les données du formulaire de réponse
+        $this->validate($request, [
+            'title' => 'required|string',
+            'message' => 'required|string',
+        ]);
+
+       
+        // Récupérer le ticket correspondant à l'ID
+        $ticket = Ticket::findOrFail($id);
 
         // Créer une nouvelle réponse
         $feedback = new Feedback();
-        $feedback->message = $message;
-        $feedback->ticket()->associate($ticket);
+        $feedback->title = $request->input('title');
+        $feedback->message = $request->input('message');
+        $feedback->ticket_id = $ticket->id;
+        $feedback->user_id = auth()->user()->id;
         $feedback->save();
+
+        // dd($feedback);
+        // Rediriger l'utilisateur vers la page du ticket avec un message de succès
+        return redirect()->route('feedbacks.show', $feedback)->with('success', 'La réponse a été ajoutée avec succès.');
 
         // Vous pouvez également effectuer d'autres actions ici, comme envoyer une notification aux utilisateurs concernés
 
-        return response()->json(['message' => 'Réponse envoyée avec succès']);
+        // return response()->json(['message' => 'Réponse envoyée avec succès']);
     }
 
     public function show(Feedback $feedback): View
     {
-        // $this->authorize('view', $feedback);
-
-        $feedback->load(['media', 'messages' => fn ($query) => $query->latest()]);
+    
+        // dd($feedback);
+        // $feedback->load(['media', 'messages' => fn ($query) => $query->latest()]);
 
         return view('feedbacks.show', compact('feedback'));
     }

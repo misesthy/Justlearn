@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Builder;
 use App\Notifications\AssignedTicketNotification;
 use App\Notifications\NewTicketCreatedNotification;
+use App\Traits\Enums\Status as EnumsStatus;
 
 class TicketController extends Controller
 {
@@ -155,9 +156,9 @@ class TicketController extends Controller
     {
         // $this->authorize('update', $ticket);
 
-        $categories = Category::all()->pluck('name', 'id');
-        $priority = Priority::all()->pluck('name', 'id');
-        $services = Service::all();
+        // $categories = Category::all()->pluck('name', 'id');
+        // $priority = Priority::all()->pluck('name', 'id');
+        // $services = Service::all();
         $status = Status::all()->pluck('name', 'id');
         $users = User::role('agent')->orderBy('name')->pluck('name', 'id');
 
@@ -166,50 +167,15 @@ class TicketController extends Controller
 
     public function update(TicketRequest $request, Ticket $ticket)
     {
-        // $this->authorize('update', $ticket);
+        // $ticket->update($request->only('status'));
+        $status = status::find($request->input('status_id'));
+        $ticket->priority()->associate($status);
 
-        $ticket->update($request->only('title', 'message', 'status', 'priority', 'assigned_to'));
-
-        $ticket->syncCategories($request->input('categories'));
-
-        if ($ticket->wasChanged('assigned_to')) {
-            Service::find($request->input('assigned_to'))->notify(new AssignedTicketNotification($ticket));
-        }
-
-        // if (!is_null($request->input('attachments')[0])) {
-        //     foreach ($request->input('attachments') as $file) {
-        //         $ticket->addMediaFromDisk($file, 'public')->toMediaCollection('tickets_attachments');
-        //     }
-        // }
+        dd($ticket);
 
         return redirect()->route('tickets.index');
     }
-
-    public function replyToTicket(Request $request, $id)
-    {
-        // Valider les données du formulaire de réponse
-    $this->validate($request, [
-        'message' => 'required',
-    ]);
-
-    // Récupérer le ticket correspondant à l'ID
-    $ticket = Ticket::findOrFail($id);
-
-    // Créer une nouvelle réponse
-    $feedback = new Feedback();
-    $feedback->message = $request->input('message');
-    $feedback->ticket_id = $ticket->id;
-    $feedback->user_id = auth()->user()->id;
-    $feedback->save();
-
-    // Rediriger l'utilisateur vers la page du ticket avec un message de succès
-    return redirect()->route('feedbacks.show', $ticket->id)->with('success', 'La réponse a été ajoutée avec succès.');
-
-        // Vous pouvez également effectuer d'autres actions ici, comme envoyer une notification aux utilisateurs concernés
-
-        // return response()->json(['message' => 'Réponse envoyée avec succès']);
-    }
-
+    
     public function destroy(Ticket $ticket)
     {
         // $this->authorize('delete', $ticket);
