@@ -1,8 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        {{ __('Create feedback' ) }}
-    </x-slot>
-
  <!-- Content wrapper -->
  <div class="content-wrapper">
     <!-- Content -->

@@ -88,5 +88,19 @@
                 <!-- Place this tag in your head or just before your close body tag. -->
                 <script async defer src="https://buttons.github.io/buttons.js"></script>
                 
+                  <!-- Script -->
+	<script type="text/javascript" src="{{ asset('assets_search/app/js/jquery-3.4.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets_search/bootstrap/js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets_search/app/js/superfish.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets_search/app/js/jquery.mobilemenu.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets_search/app/js/autocomplete.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets_search/app/js/app.js') }}"></script>
+
+    <!-- Styles -->
+	<link rel="stylesheet" href="{{ asset('assets_search/bootstrap/css/bootstrap.min.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets_search/font-awesome/css/all.min.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets_search/app/css/app.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets_search/app/css/edit.css') }}" type="text/css" />
+
             </body>
         </html>

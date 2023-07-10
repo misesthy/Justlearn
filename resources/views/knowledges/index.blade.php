@@ -1,7 +1,12 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         {{ __('Knowledge') }}
     </x-slot>
+     --}}
+    <!-- Content wrapper -->
+    <div class="content-wrapper">
+        <!-- Content -->
+        <div class="container-xxl flex-grow-1 container-p-y">
     @hasanyrole('agent|user')
     <div class="site-hero clearfix">
             <div id="header-search" class="site-search clearfix">
@@ -509,18 +514,47 @@
         </div>
     </div>
     @endhasanyrole
-    <!-- Script -->
-	<script type="text/javascript" src="assets/app/js/jquery-3.4.1.min.js"></script>
-	<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/app/js/superfish.js"></script>
-	<script type="text/javascript" src="assets/app/js/jquery.mobilemenu.js"></script>
-	<script type="text/javascript" src="assets/app/js/autocomplete.js"></script>
-	<script type="text/javascript" src="assets/app/js/app.js"></script>
 
-    <!-- Styles -->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" type="text/css" />
-	<link rel="stylesheet" href="assets/font-awesome/css/all.min.css" type="text/css" />
-	<link rel="stylesheet" href="assets/app/css/app.css" type="text/css" />
-	<link rel="stylesheet" href="assets/app/css/edit.css" type="text/css" />
+    
+</div>
+<!-- / Content -->
+<!-- Footer -->
+<footer class="content-footer footer bg-footer-theme">
+    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+        <div class="mb-2 mb-md-0">
+            ©
+            <script>
+                document.write(new Date().getFullYear());
+            </script>
+            , made with ❤️ by
+            <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Justlearn</a>
+        </div>
+        <div>
+            <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation
+            </a
+              >
+            <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Support
+            </a
+              >
+        </div>
+    </div>
+</footer>
+<!-- / Footer -->
+<div class="content-backdrop fade"></div>
+</div>
+<!-- Content wrapper -->
+</div>
+<!-- / Layout page -->
+</div>
+<!-- Overlay -->
+<div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+<script>
+$(function () {
+    $("#priority").select2();
+})
 
+</script>
+  
 </x-app-layout>

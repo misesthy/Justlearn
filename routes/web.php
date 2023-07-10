@@ -70,37 +70,37 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('feedbacks', KnowledgeController::class);
 
-    Route::get('knowledge/create', [KnowledgeController::class, 'create'])->name('knowledge.create');
-    Route::get('knowledge/index', [KnowledgeController::class, 'index'])->name('knowledge.index');
-    Route::get('knowledge/{id}/show', [KnowledgeController::class, 'show'])->name('knowledge.show');
-    Route::post('knowledge/store', [KnowledgeController::class, 'store'])->name('knowledge.store');
-    Route::get('knowledge/{id}/edit', [KnowledgeController::class, 'edit'])->name('knowledge.edit');
-    Route::put('knowledge/{id}/update', [KnowledgeController::class, 'update'])->name('knowledge.update');
-    Route::delete('knowledge/{id}/destroy', [KnowledgeController::class, 'destroy'])->name('knowledge.destroy');
+    Route::get('knowledge/create', [KnowledgeController::class, 'create'])->name('knowledges.create');
+    Route::get('knowledge/index', [KnowledgeController::class, 'index'])->name('knowledges.index');
+    Route::get('knowledge/{id}/show', [KnowledgeController::class, 'show'])->name('knowledges.show');
+    Route::post('knowledge/store', [KnowledgeController::class, 'store'])->name('knowledges.store');
+    Route::get('knowledge/{id}/edit', [KnowledgeController::class, 'edit'])->name('knowledges.edit');
+    Route::put('knowledge/{id}/update', [KnowledgeController::class, 'update'])->name('knowledges.update');
+    Route::delete('knowledge/{id}/destroy', [KnowledgeController::class, 'destroy'])->name('knowledges.destroy');
 
-    Route::get('modules', [ModuleController::class, 'index'])->name('module.index');
-    Route::get('module/create', [ModuleController::class, 'create'])->name('module.create');
-    Route::get('module/{id}/show', [ModuleController::class, 'show'])->name('module.show');
-    Route::post('module/store', [ModuleController::class, 'store'])->name('module.store');
-    Route::get('module/{id}/edit', [ModuleController::class, 'edit'])->name('module.edit');
-    Route::put('module/{id}/update', [ModuleController::class, 'update'])->name('module.update');
-    Route::delete('module/{id}/destroy', [ModuleController::class, 'destroy'])->name('module.destroy');
+    Route::get('modules', [ModuleController::class, 'index'])->name('modules.index');
+    Route::get('module/create', [ModuleController::class, 'create'])->name('modules.create');
+    Route::get('module/{id}/show', [ModuleController::class, 'show'])->name('modules.show');
+    Route::post('module/store', [ModuleController::class, 'store'])->name('modules.store');
+    Route::get('module/{id}/edit', [ModuleController::class, 'edit'])->name('modules.edit');
+    Route::put('module/{id}/update', [ModuleController::class, 'update'])->name('modules.update');
+    Route::delete('module/{id}/destroy', [ModuleController::class, 'destroy'])->name('modules.destroy');
 
-    Route::get('domain/create', [DomainController::class, 'create'])->name('domain.create');
-    Route::post('domain/store', [DomainController::class, 'store'])->name('domain.store');
-    Route::get('domain/{id}/edit', [DomainController::class, 'edit'])->name('domain.edit');
-    Route::put('domain/{id}/update', [DomainController::class, 'update'])->name('domain.update');
-    Route::delete('domain/{id}/destroy', [DomainController::class, 'destroy'])->name('domain.destroy');
-    Route::get('domain/{id}/show', [DomainController::class, 'show'])->name('domain.show');
-    Route::get('domains', [DomainController::class, 'index'])->name('domain.index');
+    Route::get('domain/create', [DomainController::class, 'create'])->name('domains.create');
+    Route::post('domain/store', [DomainController::class, 'store'])->name('domains.store');
+    Route::get('domain/{id}/edit', [DomainController::class, 'edit'])->name('domains.edit');
+    Route::put('domain/{id}/update', [DomainController::class, 'update'])->name('domains.update');
+    Route::delete('domain/{id}/destroy', [DomainController::class, 'destroy'])->name('domains.destroy');
+    Route::get('domain/{id}/show', [DomainController::class, 'show'])->name('domains.show');
+    Route::get('domains', [DomainController::class, 'index'])->name('domains.index');
 
-    Route::get('application/create', [ApplicationController::class, 'create'])->name('application.create');
-    Route::post('application/store', [ApplicationController::class, 'store'])->name('application.store');
-    Route::get('application/{id}/edit', [ApplicationController::class, 'edit'])->name('application.edit');
-    Route::put('application/{id}/update', [ApplicationController::class, 'update'])->name('application.update');
-    Route::delete('application/{id}/destroy', [ApplicationController::class, 'destroy'])->name('application.destroy');
-    Route::get('application/{id}/show', [ApplicationController::class, 'show'])->name('application.show');
-    Route::get('applications', [ApplicationController::class, 'index'])->name('application.index');
+    Route::get('application/create', [ApplicationController::class, 'create'])->name('applications.create');
+    Route::post('application/store', [ApplicationController::class, 'store'])->name('applications.store');
+    Route::get('application/{id}/edit', [ApplicationController::class, 'edit'])->name('applications.edit');
+    Route::put('application/{id}/update', [ApplicationController::class, 'update'])->name('applications.update');
+    Route::delete('application/{id}/destroy', [ApplicationController::class, 'destroy'])->name('applications.destroy');
+    Route::get('application/{id}/show', [ApplicationController::class, 'show'])->name('applications.show');
+    Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
 
 
     Route::middleware('role:admin')->group(function () {
