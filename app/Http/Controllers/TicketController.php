@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\status;
 use App\Models\Ticket;
 use App\Models\Service;
 use App\Models\Category;
@@ -17,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Builder;
 use App\Notifications\AssignedTicketNotification;
 use App\Notifications\NewTicketCreatedNotification;
-use App\Traits\Enums\Status as EnumsStatus;
+use App\Models\Status;
 
 class TicketController extends Controller
 {
@@ -145,13 +144,6 @@ class TicketController extends Controller
         return view('tickets.show', compact('ticket'));
     }
 
-    // public function view(User $user)
-    // {
-    //     $tickets = $user->tickets;
-
-    //     return view('tickets', compact('tickets'));
-    // }
-
     public function edit(Ticket $ticket): View
     {
         // $this->authorize('update', $ticket);
@@ -168,7 +160,7 @@ class TicketController extends Controller
     public function update(TicketRequest $request, Ticket $ticket)
     {
         // $ticket->update($request->only('status'));
-        $status = status::find($request->input('status_id'));
+        $status = Status::find($request->input('status_id'));
         $ticket->priority()->associate($status);
 
         dd($ticket);

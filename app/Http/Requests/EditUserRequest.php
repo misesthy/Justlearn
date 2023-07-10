@@ -14,7 +14,7 @@ class EditUserRequest extends FormRequest
             'name'     => ['required', 'string'],
             'email'    => ['required', 'email', Rule::unique('users')->ignore($this->user->id)],
             'password' => ['nullable', 'string', Rules\Password::defaults()],
-            'services' => ['required', 'exists:services,id'],
+            'services' => ['nullable', 'exists:services,id'],
             'role'     => ['required', 'integer', 'exists:roles,id'],
         ];
     }

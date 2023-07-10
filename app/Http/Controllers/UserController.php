@@ -53,8 +53,11 @@ class UserController extends Controller
         $user->assignRole($request->input('role'));
 
         $services =$request->input('services');
-        $input = implode(',',$services);
-        $user->services()->sync(explode(',', $input));
+        if ($services != null) {
+            $input = implode(',',$services);
+            $user->services()->sync(explode(',', $input));
+        }
+        
         // $services = Service::whereIn('id', $serviceIds)->get();
         // $services = $request->input('services');
         // $user->services()->sync($services);

@@ -17,7 +17,7 @@ class StatusesSeeder extends Seeder
     {
         $faker = Factory::create();
         $statuses = [
-            'Open', 'Closed'
+            'Open', 'Closed', 'archived'
         ];
 
         foreach($statuses as $status)

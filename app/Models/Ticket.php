@@ -7,8 +7,10 @@ use App\Models\media;
 use App\Models\status;
 use App\Models\Service;
 use App\Models\Category;
+// use App\Traits\Enums\Status;
 use App\Models\Priority;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,231 +86,315 @@ class Ticket extends Model
             });
     }
 
-    /**
-     * Archive the ticket
-     *
-     * @return self
-     */
-    public function archive(): self
-    {
-        $this->update([
-            'status' => Status::ARCHIVED->value,
-        ]);
+    // /**
+    //  * Archive the ticket
+    //  *
+    //  * @return self
+    //  */
+    // public function archive(): self
+    // {
+    //     $this->update([
+    //         'status' => Status::ARCHIVED->value,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Close the ticket
-     *
-     * @return self
-     */
-    public function close(): self
-    {
-        $this->update([
-            'status' => Status::CLOSED->value,
-        ]);
+    // /**
+    //  * Close the ticket
+    //  *
+    //  * @return self
+    //  */
+    // public function close(): self
+    // {
+    //     $this->update([
+    //         'status' => Status::CLOSED->value,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Reopen the ticket
-     *
-     * @return self
-     */
-    public function reopen(): self
-    {
-        $this->update([
-            'status' => Status::OPEN->value,
-        ]);
+    // /**
+    //  * Reopen the ticket
+    //  *
+    //  * @return self
+    //  */
+    // public function reopen(): self
+    // {
+    //     $this->update([
+    //         'status' => Status::OPEN->value,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Determine if the ticket is archived
-     *
-     * @return bool
-     */
-    public function isArchived(): bool
-    {
-        return $this->status == Status::ARCHIVED->value;
-    }
+    // /**
+    //  * Determine if the ticket is archived
+    //  *
+    //  * @return bool
+    //  */
+    // public function isArchived(): bool
+    // {
+    //     return $this->status == Status::ARCHIVED->value;
+    // }
 
-    /**
-     * Determine if the ticket is open
-     *
-     * @return bool
-     */
-    public function isOpen(): bool
-    {
-        return $this->status == Status::OPEN->value;
-    }
+    // /**
+    //  * Determine if the ticket is open
+    //  *
+    //  * @return bool
+    //  */
+    // public function isOpen(): bool
+    // {
+    //     return $this->status == Status::OPEN->value;
+    // }
 
-    /**
-     * Determine if the ticket is closed
-     *
-     * @return bool
-     */
-    public function isClosed(): bool
-    {
-        return ! $this->isOpen();
-    }
+    // /**
+    //  * Determine if the ticket is closed
+    //  *
+    //  * @return bool
+    //  */
+    // public function isClosed(): bool
+    // {
+    //     return ! $this->isOpen();
+    // }
 
-    /**
-     * Determine if the ticket is resolved
-     *
-     * @return bool
-     */
-    public function isResolved(): bool
-    {
-        return $this->is_resolved;
-    }
+    // /**
+    //  * Determine if the ticket is resolved
+    //  *
+    //  * @return bool
+    //  */
+    // public function isResolved(): bool
+    // {
+    //     return $this->is_resolved;
+    // }
 
-    /**
-     * Determine if the ticket is unresolved
-     *
-     * @return bool
-     */
-    public function isUnresolved(): bool
-    {
-        return ! $this->isResolved();
-    }
+    // /**
+    //  * Determine if the ticket is unresolved
+    //  *
+    //  * @return bool
+    //  */
+    // public function isUnresolved(): bool
+    // {
+    //     return ! $this->isResolved();
+    // }
 
-    /**
-     * Determine if the ticket is locked
-     *
-     * @return bool
-     */
-    public function isLocked(): bool
-    {
-        return $this->is_locked;
-    }
+    // /**
+    //  * Determine if the ticket is locked
+    //  *
+    //  * @return bool
+    //  */
+    // public function isLocked(): bool
+    // {
+    //     return $this->is_locked;
+    // }
 
-    /**
-     * Determine if the ticket is unresolved
-     *
-     * @return bool
-     */
-    public function isUnlocked(): bool
-    {
-        return ! $this->isLocked();
-    }
+    // /**
+    //  * Determine if the ticket is unresolved
+    //  *
+    //  * @return bool
+    //  */
+    // public function isUnlocked(): bool
+    // {
+    //     return ! $this->isLocked();
+    // }
 
-    /**
-     * Mark the ticket as resolved
-     *
-     * @return self
-     */
-    public function markAsResolved(): self
-    {
-        $this->update([
-            'is_resolved' => true,
-        ]);
+    // /**
+    //  * Mark the ticket as resolved
+    //  *
+    //  * @return self
+    //  */
+    // public function markAsResolved(): self
+    // {
+    //     $this->update([
+    //         'is_resolved' => true,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Mark the ticket as locked
-     *
-     * @return self
-     */
-    public function markAsLocked(): self
-    {
-        $this->update([
-            'is_locked' => true,
-        ]);
+    // /**
+    //  * Mark the ticket as locked
+    //  *
+    //  * @return self
+    //  */
+    // public function markAsLocked(): self
+    // {
+    //     $this->update([
+    //         'is_locked' => true,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Mark the ticket as locked
-     *
-     * @return self
-     */
-    public function markAsUnlocked(): self
-    {
-        $this->update([
-            'is_locked' => false,
-        ]);
+    // /**
+    //  * Mark the ticket as locked
+    //  *
+    //  * @return self
+    //  */
+    // public function markAsUnlocked(): self
+    // {
+    //     $this->update([
+    //         'is_locked' => false,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Mark the ticket as archived
-     *
-     * @return self
-     */
-    public function markAsArchived(): self
-    {
-        $this->archive();
+    // /**
+    //  * Mark the ticket as archived
+    //  *
+    //  * @return self
+    //  */
+    // public function markAsArchived(): self
+    // {
+    //     $this->archive();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Close the ticket and mark it as resolved
-     *
-     * @return self
-     */
-    public function closeAsResolved(): self
-    {
-        $this->update([
-            'status' => Status::CLOSED->value,
-            'is_resolved' => true,
-        ]);
+    // /**
+    //  * Close the ticket and mark it as resolved
+    //  *
+    //  * @return self
+    //  */
+    // public function closeAsResolved(): self
+    // {
+    //     $this->update([
+    //         'status' => Status::CLOSED->value,
+    //         'is_resolved' => true,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Close the ticket and mark it as unresolved
-     *
-     * @return self
-     */
-    public function closeAsUnresolved(): self
-    {
-        $this->update([
-            'status' => Status::CLOSED->value,
-            'is_resolved' => false,
-        ]);
+    // /**
+    //  * Close the ticket and mark it as unresolved
+    //  *
+    //  * @return self
+    //  */
+    // public function closeAsUnresolved(): self
+    // {
+    //     $this->update([
+    //         'status' => Status::CLOSED->value,
+    //         'is_resolved' => false,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Reopen the ticket and mark it as resolved
-     *
-     * @return self
-     */
-    public function reopenAsUnresolved(): self
-    {
-        $this->update([
-            'status' => Status::OPEN->value,
-            'is_resolved' => false,
-        ]);
+    // /**
+    //  * Reopen the ticket and mark it as resolved
+    //  *
+    //  * @return self
+    //  */
+    // public function reopenAsUnresolved(): self
+    // {
+    //     $this->update([
+    //         'status' => Status::OPEN->value,
+    //         'is_resolved' => false,
+    //     ]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Add new message on an existing ticket as a custom user
-     *
-     * @param  \Illuminate\Database\Eloquent\Model|int  $user
-     * @return self
-     */
-    public function assignTo(Model|int $user): self
-    {
-        $this->update([
-            'assigned_to' => $user,
-        ]);
+    // /**
+    //  * Get closed tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeClosed(Builder $builder): Builder
+    // {
+    //     return $builder->where('status', Status::CLOSED->value);
+    // }
 
-        return $this;
-    }
+    // /**
+    //  * Get opened tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeOpened(Builder $builder): Builder
+    // {
+    //     return $builder->where('status', Status::OPEN->value);
+    // }
 
+    // /**
+    //  * Get resolved tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeResolved(Builder $builder): Builder
+    // {
+    //     return $builder->where('is_resolved', true);
+    // }
+
+    // /**
+    //  * Get unresolved tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeUnresolved(Builder $builder): Builder
+    // {
+    //     return $builder->where('is_resolved', false);
+    // }
+
+    // /**
+    //  * Get locked tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeLocked(Builder $builder): Builder
+    // {
+    //     return $builder->where('is_locked', true);
+    // }
+
+    // /**
+    //  * Get unlocked tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeUnlocked(Builder $builder): Builder
+    // {
+    //     return $builder->where('is_locked', false);
+    // }
+
+    // /**
+    //  * Get custom priority tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeWithPriority(Builder $builder, string $priority): Builder
+    // {
+    //     return $builder->where('priority', $priority);
+    // }
+
+    // /**
+    //  * Get low priority tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeWithLowPriority(Builder $builder): Builder
+    // {
+    //     return $builder->where('priority', Priority::LOW->value);
+    // }
+
+    // /**
+    //  * Get normal priority tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeWithNormalPriority(Builder $builder): Builder
+    // {
+    //     return $builder->where('priority', Priority::NORMAL->value);
+    // }
+
+    // /**
+    //  * Get high priority tickets
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Builder
+    //  */
+    // public function scopeWithHighPriority(Builder $builder): Builder
+    // {
+    //     return $builder->where('priority', Priority::HIGH->value);
+    // }
 
 }

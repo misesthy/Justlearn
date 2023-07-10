@@ -28,12 +28,9 @@ class Status extends Model
         'deleted_at',
     ];
     
-    const OPEN = 'open';
-    const CLOSE = 'close';
-    const ARCHIVED = 'archived';
-
-    // public function tickets(): HasMany
-    // {
-    //     return $this->hasMany(Ticket::class);
-    // }
+   
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

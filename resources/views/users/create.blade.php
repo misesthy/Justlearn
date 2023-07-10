@@ -57,7 +57,7 @@
                             <div class="space-x-2">
                                     <div class="inline-flex space-x-1 form-group">
                                       <select name="services[]" id="services" class="form-control services text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple" multiple>
-                                        <option value="">-- Select service --</option>
+                                        <option value=" ">-- Select service --</option>
                                         @foreach ($services as $service)
                                           <option value="{{ $service->id }}" @selected(in_array($id, old('services',[]))) >
                                             {{ $service->name }}

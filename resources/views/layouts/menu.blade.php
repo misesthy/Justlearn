@@ -168,6 +168,8 @@
                         <div data-i18n="All tickets">My Ticket</div>
                     </a>
                 </li>
+                @endhasrole
+                @hasrole('agent')
                 <li class="menu-item {{ request()->is('log') ? 'active': '' }}">
                     <a href="{{ route('tickets.ticket') }}" class="menu-link">
                         <div data-i18n="Ticket user">Ticket Receive</div>

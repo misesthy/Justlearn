@@ -69,7 +69,7 @@
                                     {{ $ticket->user->name }}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    {{  $ticket->status()->first() ? $ticket->status()->first()->name:'' }}
+                                    {{  $ticket->status}}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     {{  $ticket->priority()->first() ? $ticket->priority()->first()->name:'' }}
