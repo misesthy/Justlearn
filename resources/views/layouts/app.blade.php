@@ -76,7 +76,11 @@
                 <!-- endbuild -->
                 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            
+                <script>
+                    $(document).ready(function() {
+                      $('.services').select2();
+                    });
+                  </script>
                 @stack('scripts')
                
                 <!-- Vendors JS -->
@@ -89,7 +93,7 @@
                 <script async defer src="https://buttons.github.io/buttons.js"></script>
                 
                   <!-- Script -->
-	<script type="text/javascript" src="{{ asset('assets_search/app/js/jquery-3.4.1.min.js') }}"></script>
+	
 	<script type="text/javascript" src="{{ asset('assets_search/bootstrap/js/bootstrap.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets_search/app/js/superfish.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets_search/app/js/jquery.mobilemenu.js') }}"></script>
@@ -102,5 +106,6 @@
 	<link rel="stylesheet" href="{{ asset('assets_search/app/css/app.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('assets_search/app/css/edit.css') }}" type="text/css" />
 
-            </body>
-        </html>
+    {{-- <script type="text/javascript" src="{{ asset('assets_search/app/js/jquery-3.4.1.min.js') }}"></script> --}}
+    </body>
+</html>

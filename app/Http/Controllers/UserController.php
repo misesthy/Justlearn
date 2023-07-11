@@ -57,7 +57,7 @@ class UserController extends Controller
             $input = implode(',',$services);
             $user->services()->sync(explode(',', $input));
         }
-        
+    
         // $services = Service::whereIn('id', $serviceIds)->get();
         // $services = $request->input('services');
         // $user->services()->sync($services);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Module;
+use App\Models\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,14 +14,18 @@ class Knowledge extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function module(): BelongsTo
-    {
-        return $this->belongsTo(Module::class);
-    }
+    // public function module(): BelongsTo
+    // {
+    //     return $this->belongsTo(Module::class);
+    // }
 
     public function users(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    public function application(): BelongsTo
+    {
+        return $this->belongsTo(Application::class);
+    }
 }

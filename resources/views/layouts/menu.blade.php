@@ -79,18 +79,18 @@
                 </li>
                 @endhasrole --}}
                 @hasrole('admin')
-                <li class="menu-item {{ request()->is('domain') ? 'active': '' }}">
+                {{-- <li class="menu-item {{ request()->is('domain') ? 'active': '' }}">
                     <a href="{{ route('domains.index') }}" class="menu-link">
                         <div data-i18n="Domain_knowledge">Domain knowledge</div>
                     </a>
-                </li>
+                </li> --}}
                 <li class="menu-item {{ request()->is('application') ? 'active': '' }}">
                     <a href="{{ route('applications.index') }}" class="menu-link">
                         <div data-i18n="Application">Application</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('module') ? 'active': '' }}">
-                    <a href="{{ route('modules.index') }}" class="menu-link">
+                    <a href="{{ route('services.index') }}" class="menu-link">
                         <div data-i18n="Module">Module</div>
                     </a>
                 </li>
