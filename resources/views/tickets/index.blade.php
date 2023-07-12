@@ -72,7 +72,7 @@
                                     {{  $ticket->status}}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    {{  $ticket->priority()->first() ? $ticket->priority()->first()->name:'' }}
+                                    {{ $ticket->priority->name }}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     @foreach($ticket->categories as $category)
