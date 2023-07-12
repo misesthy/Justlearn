@@ -16,20 +16,79 @@ use App\Notifications\NewFeedbackCreatedNotification;
 
 class FeedbackController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
-        $feedbacks = Feedback::with('user')
-            // ->when($request->has('category'), function (Builder $query) use ($request) {
-            //     return $query->whereRelation('categories', 'id', $request->input('category'));
-            // })
-            // ->when(auth()->user()->hasRole('agent'), function (Builder $query) {
-            //     $query->where('assignedToUser', auth()->user()->id);
-            // })
-            ->when(auth()->user()->hasRole('user'), function (Builder $query) {
-                $query->where('user_id', auth()->user()->id);
-            })
+        
+        // $feedbacks = Feedback::with('user')
+        //     // ->when($request->has('category'), function (Builder $query) use ($request) {
+        //     //     return $query->whereRelation('categories', 'id', $request->input('category'));
+        //     // })
+        //     // ->when(auth()->user()->hasRole('agent'), function (Builder $query) {
+        //     //     $query->where('assignedToUser', auth()->user()->id);
+        //     // })
+        //     ->when(auth()->user()->hasRole('user'), function (Builder $query) {
+        //         $query->where('user_id', auth()->user()->id);
+        //     })
+        //     ->latest()
+        //     ->paginate();
+
+
+
+        if(auth()->user()->hasRole('user')){
+
+        }else if(auth()->user()->hasRole('admin')){
+            // dd(Feedback::paginate(10));
+            //j'affiche pour l'administrateur l'ensemble des derniers feedback faits sur la plateforme
+            $feedbacks = Feedback::latest()->simplePaginate(10);
+        }else if(auth()->user()->hasRole('agent')){
+
+            // dd(auth()->user()->services);
+            // dd(Feedback::all()->where('services', auth()->user()->id)->latest()->simplePaginate(10));
+
+            // $feedbacks = Feedback::all()->belongsToMany(Role::class)
+            //     ->wherePivotIn('priority', [1, 2]);
+
+            $user = auth()->user();
+            // $feedbacks = Feedback::whereHas('services', function ($query) use ($user) {
+            //     $query->whereIn('service_id',  $user->services->pluck('id'));
+            // })->get();
+
+            // $feedbacks = Feedback::join('tickets', 'feedbacks.ticket_id', '=', 'tickets.id')
+            // ->join('services', 'tickets.service_id', '=', 'services.id')
+            // ->whereIn('services.id', $user->services->pluck('id'))
+            // ->get();
+
+            /**** PROMPT GPT *******************************************
+            la table feedback est en relation many to many avec la table service. 
+            la table feedback est en relation many to one avec la table tickets. 
+            la table ticket est en relation many to one avec la table user. 
+            la table ticket est en relation many to many avec la table service. 
+
+
+            J'aimerais faire une requête eloquent qui cherche les feedback des tickets ayant pour services les services de l'utilisateur courant ***/
+
+            $feedbacks = Feedback::join('tickets', 'feedback.ticket_id', '=', 'tickets.id')
+            ->join('service_ticket', 'tickets.id', '=', 'service_ticket.ticket_id')
+            ->join('services', 'service_ticket.service_id', '=', 'services.id')
+            ->whereIn('services.id', $user->services->pluck('id'))
             ->latest()
             ->paginate();
+
+            // $feedback = Feedback::whereHas('owners', function($q) use($ownerIds) {
+            //     $q->whereIn('id', $ownerIds);
+            // })->get();
+
+            // dd($feedbacks);
+
+
+
+
+            // $feedbacks = Feedback::all()->where('likes', '>', request('likes_amount', 0))
+            // ->latest()
+            // ->paginate();
+        }
+        
+        // dd('bonjour');
 
         return view('feedbacks.index', compact('feedbacks'));
     }

@@ -56,6 +56,7 @@ class Ticket extends Model
     {
         return $this->belongsToMany(Service::class);
     }
+    
 
     public function categories(): BelongsToMany
     {
