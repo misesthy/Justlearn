@@ -25,13 +25,13 @@ class ProfileController extends Controller
         }
         if ($request->hasFile("image")) {
             
-            if (File::exists("assets/img/avatars/" . auth()->user()->image)) {
-                File::delete("assets/img/avatars/" . auth()->user()->image);
+            if (File::exists("assets/img/avatar/" . auth()->user()->image)) {
+                File::delete("assets/img/avatar/" . auth()->user()->image);
             }
             
             $file = $request->file("image");
             $attributes['image'] = time() . "_" . $file->getClientOriginalName();
-            $file->move(("assets/img/avatars/"), $attributes ['image']);
+            $file->move(("assets/img/avatar/"), $attributes ['image']);
             
         }
         
