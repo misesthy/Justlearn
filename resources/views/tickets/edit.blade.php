@@ -56,7 +56,7 @@
                 <x-input-label for="status" :value="__('Status')" />
                 <select name="status_id" id="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50">
                     @foreach($status as $id => $name)
-                        <option value="{{ $id }}" @selected( {{ (isset($ticket) && $ticket->status ? $ticket->status->id : old('status_id')) == $id ? 'selected' : '' }})>{{ $name }}</option>
+                        <option value="{{ $id }}" @selected( {{ (isset($ticket) && $ticket->status ? $ticket->id : old('status_id')) == $id ? 'selected' : '' }})>{{ $name }}</option>
                     @endforeach
                 </select>
                 <x-input-error :messages="$errors->get('status')" class="mt-2" />
