@@ -11,29 +11,46 @@
 
     <div class="rounded-lg bg-white p-4 shadow-md">
 
-        <form action="{{ route('module.update', $module->id) }}" method="POST">
+        <form action="{{ route('modules.update', $module->id) }}" method="POST">
             @csrf
             @method('PUT')
-        
-            <div class="form-group">
-                <label for="nom">Nom du module</label>
-                <input type="text" name="nom" id="nom" value="{{ $module->nom }}" class="form-control">
+            <div>
+                <x-input-label for="name" :value="__('Name of module')" />
+                <x-input type="text"
+                              id="name"
+                              name="name"
+                              class="form-control"
+                              value="{{ old('name', $module->name) }}"
+                              required />
+                <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
-        
-            <div class="form-group">
-                <label for="application_id">Application</label>
-                <select name="application_id" id="application_id" class="form-control">
-                    @foreach($applications as $application)
-                        <option value="{{ $application->id }}" {{ $application->id === $module->application_id ? 'selected' : '' }}>
-                            {{ $application->nom }}
+            <div class="mt-4">
+                <x-input-label for="description" :value="__('Description')" />
+                <textarea id="description"
+                          name="description"
+                          class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                          required>{{ old('description', $module->description) }}</textarea>
+                <x-input-error :messages="$errors->get('message')" class="mt-2" />
+            </div>
+            <div class="mt-4">
+                <x-input-label for="application_id" :value="__('Application')" />
+                <select id="application_id"
+                        name="application_id"
+                        class="form-control"
+                        required>
+                    @foreach($application as $id => $name )
+                        <option value="{{ $id }}" {{ $id === $module->application_id ? 'selected' : '' }}>
+                            {{ $name }}
                         </option>
                     @endforeach
                 </select>
+                <x-input-error :messages="$errors->get('message')" class="mt-2" />
             </div>
-        
-            <!-- Ajoutez les autres champs de formulaire pour l'édition du module -->
-        
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <div class="mt-4">
+                <x-button class="btn btn-primary">
+                    {{ __('Submit') }}
+                </x-button>
+            </div>
         </form>
         
 

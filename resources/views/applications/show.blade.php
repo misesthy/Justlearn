@@ -3,21 +3,46 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h2 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Tickets /</span>
-                Create Ticket
-            </h2>
+           
             <div class="rounded-lg bg-white p-4 shadow-md">
-                <h1>Détails de l'application</h1>
-                <p>Nom : {{ $application->name }}</p>
-                <!-- Ajoutez d'autres détails de l'application si nécessaire -->
-                <a href="{{ route('application.edit', $application->id) }}">Modifier</a>
-                <form action="{{ route('application.destroy', $application->id) }}" method="POST">
+                <h2>Détails de l'application</h2>
+
+                <div class="min-w-0  rounded-lg bg-white p-4 shadow-xs">
+                    <p class="text-gray-600">
+                        <h4 class="mb-4 font-semibold text-gray-600">
+                            Name : 
+                        </h4>
+                        {{ $application->name }}
+                    </p>
+                </div>
+                <div class="min-w-0 rounded-lg bg-white p-4 shadow-xs">
+                    <p class="text-gray-600">
+                        <h4 class="mb-4 font-semibold text-gray-600">
+                            Description : 
+                        </h4>
+                        {{ $application->description }}
+                    </p>
+                </div>
+               <div>
+                    <a class="dropdown-item" href="{{ route('applications.edit', $application->id) }}">
+                        <i class="bx bx-edit-alt me-1"></i> 
+                        Edit
+                    </a>
+                </div>
+                <form
+                    action="{{ route('applications.destroy', $application->id) }}"
+                    method="POST"
+                    onsubmit="return confirm('Are you sure?')"
+                    style="display: inline-block;"
+                    >
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Supprimer</button>
+                        <button type="submit" class="btn btn-block btn-primary btn-login">
+                             Delete
+                        </button>
                 </form>
             </div>
+        </div>
             <!-- / Content -->
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Module;
 use App\Models\Application;
 use Illuminate\Http\Request;
+use App\Http\Requests\ModuleRequest;
 
 class ModuleController extends Controller
 {
@@ -27,9 +28,10 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        $applications = Application::all();
+        $application = Application::all()->pluck('name','id');
 
-        return view('modules.create', compact('applications'));
+
+        return view('modules.create', compact('application'));
     }
 
     /**
@@ -38,12 +40,12 @@ class ModuleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ModuleRequest $request)
     {
         $module = new Module;
-        $module->nom = $request->nom;
+        $module->name = $request->name;
+        $module->description = $request->description;
         $module->application_id = $request->application_id;
-        // Autres attributs du module
 
         $module->save();
 
@@ -72,9 +74,9 @@ class ModuleController extends Controller
     public function edit($id)
     {
         $module = Module::findOrFail($id);
-        $applications = Application::all();
+        $application = Application::all()->pluck('name','id');
 
-        return view('modules.edit', compact('module', 'applications'));
+        return view('modules.edit', compact('module', 'application'));
     }
 
     /**
@@ -87,9 +89,9 @@ class ModuleController extends Controller
     public function update(Request $request, $id)
     {
         $module = Module::findOrFail($id);
-        $module->nom = $request->nom;
+        $module->name = $request->name;
+        $module->description = $request->description;
         $module->application_id = $request->application_id;
-        // Autres attributs du module
 
         $module->save();
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Domain;
 use App\Models\Application;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
@@ -17,6 +18,10 @@ class ApplicationController extends Controller
     {
         $applications = Application::all();
 
+        foreach ($applications as $application) {
+            $application->description = Str::limit($application->description, 40);
+        }
+
         return view('applications.index', compact('applications'));
     }
 
@@ -27,9 +32,8 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        // Récupérer la liste des domaines de connaissance pour la vue
-        $domains = Domain::all();
-        return view('applications.create', compact('domains'));
+        // $domains = Domain::all();
+        return view('applications.create');
     }
 
     /**
@@ -42,8 +46,8 @@ class ApplicationController extends Controller
     {
         $application = new Application;
         $application->name = $request->name;
-        // Autres attributs de l'application
-
+        $application->description = $request->description;
+        
         $application->save();
 
         return redirect()->route('applications.index')->with('success', 'L\'application a été créée avec succès');
@@ -71,10 +75,9 @@ class ApplicationController extends Controller
     public function edit($id)
     {
         $application = Application::findOrFail($id);
-        // Récupérer la liste des domaines de connaissance pour la vue
-        $domains = Domain::all();
+        // $domains = Domain::all();
 
-        return view('applications.edit', compact('application', 'domains'));
+        return view('applications.edit', compact('application'));
     }
 
     /**
@@ -87,8 +90,8 @@ class ApplicationController extends Controller
     public function update(Request $request, $id)
     {
         $application = Application::findOrFail($id);
-        $application->nom = $request->nom;
-        // Autres attributs de l'application
+        $application->name = $request->name;
+        $application->description = $request->description;
 
         $application->save();
 
