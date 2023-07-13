@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\Application;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ModuleRequest;
 
@@ -17,6 +18,10 @@ class ModuleController extends Controller
     public function index()
     {
         $modules = Module::all();
+        
+        foreach ($modules as $module) {
+            $module->description = Str::limit($module->description, 30);
+        }
 
         return view('modules.index', compact('modules'));
     }
