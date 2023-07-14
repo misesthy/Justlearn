@@ -16,10 +16,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Notifications\Notifiable;
 
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
+
+    protected $fillable = [
+        'title',
+        'message',
+        'status',
+        'priority_id',
+        'user_id'
+    ];
 
     public function registerMediaConversions(Media $media = null): void
     {

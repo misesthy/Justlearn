@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::post('users/store', [UserController::class, 'test'])->name('users.store');
+    //Route::post('users/store', [UserController::class, 'test'])->name('users.store');
     Route::resource('users', UserController::class);
     // Route::get('users', UserController::class)->name('essai');
 
