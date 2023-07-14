@@ -42,7 +42,6 @@ class FeedbackController extends Controller
             $feedbacks = Feedback::with('user:id,name,email')
             ->with('ticket')->latest()->simplePaginate(10);
         }else if(auth()->user()->hasRole('agent')){
-
             // dd(auth()->user()->services);
             // dd(Feedback::all()->where('services', auth()->user()->id)->latest()->simplePaginate(10));
 
@@ -68,26 +67,36 @@ class FeedbackController extends Controller
 
             J'aimerais faire une requête eloquent qui cherche les feedback des tickets ayant pour services les services de l'utilisateur courant ***/
 
-            $feedbacks = Feedback::all()
-            // ->where('feedback.ticket_id','=','tickets.id')
-            ->where('feedback.ticket_id', '=', 'service_ticket.ticket_id')
-            // ->where('service_ticket.service_id', '=', $user->services->pluck('id'))
-            // ->where('tickets.id', '=', 'feedback.ticket_id')
+            // $feedbacks = Feedback::where('ticket_id', function ($query) {
+            //         $user = auth()->user();
+            //         // dd($user->services->pluck('id'));
+            //         $query->where('service_ticket.service_id', '=', $user->services->pluck('id'));
+            //         // $query->where('tickets.id', '=', 'feedback.ticket_id');
+            //     })->get()
 
+                // $feedbacks = Feedback::where('ticket_id', function ($query) {
+                //     $query->select('ticket_id')
+                //         ->from('service_ticket')
+                //         ->where('service_id', $user->services->pluck('id'));
+                // })->get();
 
-            // ->join('service_ticket', 'tickets.id', '=', 'service_ticket.ticket_id')
-            // ->join('services', 'service_ticket.service_id', '=', 'services.id')
-            // ->whereIn('services.id', $user->services->pluck('id'))
-            // ->with('user:id,name,email')
-            // ->with('ticket')
-            
-            // ->latest('feedback.created_at')
-            // ->paginate();
-            ;
+                $feedbacks = Feedback::whereIn('ticket_id', function ($query) {
+                    $user = auth()->user();
+
+                    $query->select('ticket_id')
+                        ->from('service_ticket')
+                        ->whereIn('service_id', $user->services->pluck('id'));
+                })
+                ->whereNull('deleted_at')
+                ->with('user:id,name,email')
+                ->with('ticket')
+                
+                ->latest('feedback.created_at')
+                ->paginate();
 
             // $feedbacks = Feedback::all();
 
-            dd($feedbacks);
+            // dd($feedbacks);
 
 
 
@@ -157,30 +166,30 @@ class FeedbackController extends Controller
 
         // $users = User::role('agent')->orderBy('name')->pluck('name', 'id');
         $feedback = Feedback::findOrFail($id);
-        dd($feedback);
 
-        return view('feedbacks.edit', compact('feedback', 'labels', 'categories', 'users'));
+        return view('feedbacks.edit', compact('feedback',  'categories'));
     }
 
-    public function update(FeedbackRequest $request, Feedback $feedback)
+    public function update(FeedbackRequest $request, $id)
     {
         // $this->authorize('update', $feedback);
 
-        $feedback->update($request->only('title', 'message', 'status', 'priority', 'assigned_to'));
+        TicketRequest::where('id', $id)
+        ->update([
+               'title' => $request->title,
+               'message' => $request->message,
+        ]);
+    
 
-        $feedback->syncCategories($request->input('categories'));
+        // if ($feedback->wasChanged('assigned_to')) {
+        //     User::find($request->input('assigned_to'))->notify(new AssignedFeedbackNotification($feedback));
+        // }
 
-        $feedback->syncLabels($request->input('labels'));
-
-        if ($feedback->wasChanged('assigned_to')) {
-            User::find($request->input('assigned_to'))->notify(new AssignedFeedbackNotification($feedback));
-        }
-
-        if (!is_null($request->input('attachments')[0])) {
-            foreach ($request->input('attachments') as $file) {
-                $feedback->addMediaFromDisk($file, 'public')->toMediaCollection('feedbacks_attachments');
-            }
-        }
+        // if (!is_null($request->input('attachments')[0])) {
+        //     foreach ($request->input('attachments') as $file) {
+        //         $feedback->addMediaFromDisk($file, 'public')->toMediaCollection('feedbacks_attachments');
+        //     }
+        // }
 
         return to_route('feedbacks.index');
     }

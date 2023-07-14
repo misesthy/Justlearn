@@ -30,9 +30,9 @@ class TicketRepository
                     "subject" => "Creation d'un nouveau ticket",
                     "msg" => $message,
                 ];
-                if(count($user)){
-                    Notification::worker($user, $mail);
-                }
+                // if(count($user)){
+                //     Notification::worker($user, $mail);
+                // }
             }
             
 

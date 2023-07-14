@@ -10,16 +10,17 @@
 
 <div class="rounded-lg bg-white p-4 shadow-md">
 
-    <form action="{{ route('feedbacks.store', $ticket) }}" method="POST">
+    <form action="{{ route('feedbacks.update', $feedback) }}" method="POST">
         @csrf
+        @method('PATCH')
 
         <div>
-            <x-input-label for="title" :value="__('Title')" />
+            <x-input-label for="title" :value="__('title')" />
             <x-input type="text"
                           id="title"
                           name="title"
                           class="block w-full"
-                          value="{{ old('title') }}"
+                          value="{{ old('title',$feedback->title) }}"
                           required />
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
         </div>
@@ -29,7 +30,7 @@
             <textarea id="message"
                       name="message"
                       class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
-                      required>{{ old('message') }}</textarea>
+                      required>{{ old('message',$feedback->message) }}</textarea>
             <x-input-error :messages="$errors->get('message')" class="mt-2" />
         </div>
 
