@@ -77,7 +77,7 @@ class TicketController extends Controller
         $priority = Priority::all()->pluck('name', 'id');
         $services = Service::all();
         $status = Status::all()->pluck('name', 'id');
-        // dd($categories);
+        
         return view('tickets.create', compact('categories','priority','services', 'status'));
     }
 

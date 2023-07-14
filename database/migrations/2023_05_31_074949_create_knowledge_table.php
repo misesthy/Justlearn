@@ -16,7 +16,7 @@ class CreateKnowledgeTable extends Migration
         Schema::create('knowledge', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('service_id')->constrained();
+            $table->foreignId('module_id')->constrained();
             $table->foreignId('application_id')->constrained()->onDelete('cascade');
             $table->longText('short_text')->nullable();
             $table->longText('full_text');

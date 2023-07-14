@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class KnowledgeRequest extends FormRequest
+class ModuleRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -12,6 +12,7 @@ class KnowledgeRequest extends FormRequest
             // 'title'       => ['required', 'string'],
             // 'message'     => ['required', 'string'],
             'application_id' => ['required', 'integer', 'exists:applications,id'],
+            'module_id' => ['required', 'integer', 'exists:modules,id'],
         ];
     }
 
