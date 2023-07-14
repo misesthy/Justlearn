@@ -64,7 +64,7 @@ class User extends Authenticatable
 
     public function feedbacks(): HasMany
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Feedback::class);
     }
 
 

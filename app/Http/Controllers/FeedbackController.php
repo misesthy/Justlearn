@@ -71,7 +71,9 @@ class FeedbackController extends Controller
             ->join('service_ticket', 'tickets.id', '=', 'service_ticket.ticket_id')
             ->join('services', 'service_ticket.service_id', '=', 'services.id')
             ->whereIn('services.id', $user->services->pluck('id'))
-            ->latest()
+            ->with('user:id,name,email')
+            ->with('ticket')
+            ->latest('feedback.created_at')
             ->paginate();
 
             // $feedback = Feedback::whereHas('owners', function($q) use($ownerIds) {

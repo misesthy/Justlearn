@@ -36,7 +36,7 @@
                                     {{ $feedback->user->name }}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    <a href="{{ route('tickets.index', $ticket) }}" class="hover:underline">{{ $feedback->ticket()->title }}</a>
+                                    <a href="{{ route('tickets.index', $feedback->id) }}" class="hover:underline">{{ $feedback->ticket->title }}</a>
                                 </td>
                                 <td class="px-4 py-3 space-x-2">
                                     @hasanyrole('agent')
