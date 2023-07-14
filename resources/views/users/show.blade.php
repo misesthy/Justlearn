@@ -20,7 +20,7 @@
                                     class="d-block rounded"
                                     height="100"
                                     width="100"
-                                    src="/assets/img/avatar/{{ $user->image  ? $user->image:''  }}"
+                                    src="/assets/img/avatars/{{ $user->image  ? $user->image:''  }}"
                                 >
                             </div>
                         </div>

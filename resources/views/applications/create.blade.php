@@ -4,23 +4,32 @@
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h2 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Tickets /</span>
-                Create Ticket
+                <span class="text-muted fw-light">Application /</span>
+                Create Application
             </h2>
             <div class="rounded-lg bg-white p-4 shadow-md">
-                <form action="{{ route('application.store') }}" method="POST">
+                <form action="{{ route('applications.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label for="nom">Nom de l'application</label>
+                        <label for="name">Nom de l'application</label>
                         <input
                             type="text"
-                            name="nom"
-                            id="nom"
+                            name="name"
+                            id="name"
                             class="form-control"
                         >
                     </div>
-                    <!-- Ajoutez les autres champs de formulaire pour la création de l'application -->
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <div class="mt-4">
+                        <x-input-label for="description" :value="__('Description')" />
+                        <textarea id="description"
+                                  name="description"
+                                  class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                                  required>{{ old('description') }}</textarea>
+                        <x-input-error :messages="$errors->get('message')" class="mt-2" />
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
                 </form>
             </div>
             <!-- / Content -->

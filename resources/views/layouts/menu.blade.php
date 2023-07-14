@@ -90,7 +90,7 @@
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('module') ? 'active': '' }}">
-                    <a href="{{ route('services.index') }}" class="menu-link">
+                    <a href="{{ route('modules.index') }}" class="menu-link">
                         <div data-i18n="Module">Module</div>
                     </a>
                 </li>

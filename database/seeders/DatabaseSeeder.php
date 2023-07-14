@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             ServiceSeeder::class,
             StatusesSeeder::class,
+            ApplicationSeeder::class,
+            ModuleSeeder::class,
         ]);
 
         \App\Models\User::factory(10)

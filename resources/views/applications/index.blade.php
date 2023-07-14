@@ -3,41 +3,69 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h2 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Tickets /</span>
-                Create Ticket
-            </h2>
-            <div class="rounded-lg bg-white p-4 shadow-md">
-                <h1>Liste des applications</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <!-- Ajoutez d'autres en-têtes de colonnes si nécessaire -->
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($applications as $application)
-                        <tr>
-                            <td>{{ $application->id }}</td>
-                            <td>{{ $application->name }}</td>
-                            <!-- Ajoutez d'autres colonnes de données si nécessaire -->
-                            <td>
-                                <a href="{{ route('application.show', $application->id) }}">Afficher</a>
-                                <a href="{{ route('application.edit', $application->id) }}">Modifier</a>
-                                <form action="{{ route('application.destroy', $application->id) }}" method="POST">
-                                    @csrf
-                    @method('DELETE')
-                                    <button type="submit">Supprimer</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <h1>Liste des applications</h1>
+            <div class="mb-4 flex justify-between">
+                <a class="btn btn-success" href="{{ route('applications.create') }}">
+                    {{ __('Create') }}
+                </a>
             </div>
+            <!-- Basic Bootstrap Table -->
+            <div class="card">
+                {{-- <div class="table-responsive text-nowrap"> --}}
+                    <table class="table">
+                        <thead>
+                            <tr class="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                <th>N°</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach($applications as $application)
+                                <tr>
+                                    <td> {{ $application->id ? $application->id:''}}</td>
+                                    </td>
+                                    <td> {{ $application->name ? $application->name:''}}</td>
+                                    <td> {{ $application->description ? $application->description:''}}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{ route('applications.show', $application->id) }}">
+                                                    <i class="bx bx-show-alt me-1"></i>
+                                                    Show
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('applications.edit', $application->id) }}">
+                                                    <i class="bx bx-edit-alt me-1"></i> 
+                                                    Edit
+                                                </a>
+                                                <a class="dropdown-item">
+                                                    <form
+                                                        action="{{ route('applications.destroy', $application->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure?')"
+                                                        style="display: inline-block;"
+                                                    >
+                                                        @csrf
+                                            @method('DELETE')
+                                                        <button type="submit" class="btn btn-block btn-primary btn-login">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
             <!-- / Content -->
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">

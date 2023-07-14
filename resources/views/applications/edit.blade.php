@@ -4,25 +4,39 @@
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h2 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Tickets /</span>
-                Create Ticket
+                <span class="text-muted fw-light">Application /</span>
+                Update Application
             </h2>
             <div class="rounded-lg bg-white p-4 shadow-md">
-                <form action="{{ route('application.update', $application->id) }}" method="POST">
+                <form action="{{ route('applications.update', $application->id) }}" method="POST">
                     @csrf
             @method('PUT')
                     <div class="form-group">
-                        <label for="nom">Nom de l'application</label>
-                        <input
-                            type="text"
-                            name="nom"
-                            id="nom"
-                            value="{{ $application->nom }}"
-                            class="form-control"
-                        >
+                        <div>
+                            <x-input-label for="name" :value="__('Name of application')" />
+                            <x-input type="text"
+                                          id="name"
+                                          name="name"
+                                          class="form-control"
+                                          value="{{ old('name', $application->name) }}"
+                                          required />
+                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        </div>
+                        <div class="mt-4">
+                            <x-input-label for="description" :value="__('Description')" />
+                            <textarea id="description"
+                                      name="description"
+                                      class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                                      required>{{ old('description', $application->description) }}</textarea>
+                            <x-input-error :messages="$errors->get('message')" class="mt-2" />
+                        </div>
                     </div>
                     <!-- Ajoutez les autres champs de formulaire pour la modification de l'application -->
-                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    <div class="mt-4">
+                        <x-button class="btn btn-primary">
+                            {{ __('Submit') }}
+                        </x-button>
+                    </div>
                 </form>
             </div>
             <!-- / Content -->

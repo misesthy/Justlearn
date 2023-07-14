@@ -4,28 +4,53 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h2 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Tickets /</span> Create Ticket
-            </h2>
 
+            <div class="rounded-lg bg-white p-4 shadow-md">
 
-    <div class="rounded-lg bg-white p-4 shadow-md">
+            <h2>Détails du module</h2>
 
-        <h1>Détails du module</h1>
-
-        <p>Nom : {{ $module->name }}</p>
-        <p>Application : {{ $module->application->name }}</p>
-        <!-- Affichez les autres détails du module -->
-
-        <a href="{{ route('module.edit', $module->id) }}">Modifier</a>
-
-        <form action="{{ route('module.destroy', $module->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit">Supprimer</button>
-        </form>
-
-
+            <div class="min-w-0  rounded-lg bg-white p-4 shadow-xs">
+                <p class="text-gray-600">
+                    <h4 class="mb-4 font-semibold text-gray-600">
+                        Name : 
+                    </h4>
+                    {{ $module->name }}
+                </p>
+            </div>
+            <div class="min-w-0 rounded-lg bg-white p-4 shadow-xs">
+                <p class="text-gray-600">
+                    <h4 class="mb-4 font-semibold text-gray-600">
+                        Description : 
+                    </h4>
+                    {{ $module->description }}
+                </p>
+            </div>
+            <div class="min-w-0 rounded-lg bg-white p-4 shadow-xs">
+                <p class="text-gray-600">
+                    <h4 class="mb-4 font-semibold text-gray-600">
+                        Name of Application : 
+                    </h4>
+                    {{ $module->application->name }}
+                </p>
+            </div>
+            <div>
+                <a class="dropdown-item" href="{{ route('modules.edit', $module->id) }}">
+                    <i class="bx bx-edit-alt me-1"></i> 
+                    Edit
+                </a>
+            </div>
+            <form
+                action="{{ route('modules.destroy', $module->id) }}"
+                method="POST"
+                onsubmit="return confirm('Are you sure?')"
+                style="display: inline-block;"
+                >
+                @csrf
+                @method('DELETE')
+                    <button type="submit" class="btn btn-block btn-primary btn-login">
+                        Delete
+                    </button>
+            </form>
     </div>
     <!-- / Content -->
     <!-- Footer -->

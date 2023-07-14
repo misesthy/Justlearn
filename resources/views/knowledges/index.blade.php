@@ -7,6 +7,72 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
+            @hasrole('admin')
+            <h1>Liste des Connaissances</h1>
+            <div class="mb-4 flex justify-between">
+                <a class="btn btn-success" href="{{ route('knowledges.create') }}">
+                    {{ __('Create') }}
+                </a>
+            </div>
+         <!-- Basic Bootstrap Table -->
+         <div class="card">
+            {{-- <div class="table-responsive text-nowrap"> --}}
+                <table class="table">
+                    <thead>
+                        <tr class="border-b bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            <th>N°</th>
+                            <th>Module</th>
+                            <th>Name of Module</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @foreach($modules as $module)
+                       
+                            <tr>
+                                <td> {{ $module->id ? $module->id:''}}</td>
+                                </td>
+                                <td> {{ $module->name ? $module->name:''}}</td>
+                                <td> {{ $module->description ? $module->description:''}}</td>
+                                <td> {{ $module->application->name }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{ route('modules.show', $module->id) }}">
+                                                <i class="bx bx-show-alt me-1"></i>
+                                                Show
+                                            </a>
+                                            <a class="dropdown-item" href="{{ route('modules.edit', $module->id) }}">
+                                                <i class="bx bx-edit-alt me-1"></i> 
+                                                Edit
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <form
+                                                    action="{{ route('modules.destroy', $module->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Are you sure?')"
+                                                    style="display: inline-block;"
+                                                >
+                                                    @csrf
+                                                     @method('DELETE')
+                                                    <button type="submit" class="btn btn-block btn-primary btn-login">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @endhasrole
     @hasanyrole('agent|user')
     <div class="site-hero clearfix">
             <div id="header-search" class="site-search clearfix">
