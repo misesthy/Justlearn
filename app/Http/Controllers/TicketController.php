@@ -17,9 +17,17 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Notifications\AssignedTicketNotification;
 use App\Notifications\NewTicketCreatedNotification;
 use App\Models\Status;
+use App\Repositories\TicketRepository;
 
 class TicketController extends Controller
 {
+
+    private $ticketRepository = null;
+
+    public function __construct(TicketRepository $ticketRepository) {
+        $this->ticketRepository = $ticketRepository;
+    }
+
     public function index(): View
     { 
 
@@ -75,37 +83,50 @@ class TicketController extends Controller
 
     public function storage(TicketRequest $request)
     {
+        
 
-        $user = auth()->user();
 
         $ticket = new Ticket();
-        $ticket->title = $request->input('title');
-        $ticket->message = $request->input('message');
-        $ticket->assigned_to = $request->input('');
-        $ticket->pays_id = $request->input('nom_pays');
+        $ticket->created_at = Carbon::parse($ticket->date)->format('Y-m-d H:i:s'); 
+        $ticket = $this->ticketRepository->add([
+            'title'=> $request->input('title'),
+            'message'=> $request->input('message'),
+            'priority_id' => $request->input('priority_id'),
+            'user_id' => auth()->user()->id,
+            'id_service'=>$request->input('assigned_to'),
+            'id_categorie'=>$request->input('categories'),
+            'created_at' => $ticket->created_at,
+        ]);
+        
+        //$user = auth()->user();
+
+        //$ticket = new Ticket();
+        //$ticket->title = $request->input('title');
+        //$ticket->message = $request->input('message');
+        //$services =$request->input('assigned_to');
         
         // $services = Service::whereIn('id', $serviceIds)->get();
         
         // $ticket->services()->sync($input);
         
-        $priority = Priority::find($request->input('priority_id'));
-        $ticket->priority()->associate($priority);
+        //$priority = Priority::find($request->input('priority_id'));
+        //$ticket->priority()->associate($priority);
 
-        $ticket->created_at = Carbon::parse($ticket->date)->format('Y-m-d H:i:s'); 
+        //$ticket->created_at = Carbon::parse($ticket->date)->format('Y-m-d H:i:s'); 
         
-        $request->validated([
-            'title' => 'required|string',
-            'message' => 'required|string',
-        ]);
-        $user->tickets()->save($ticket);
+        //$request->validated([
+           // 'title' => 'required|string',
+           // 'message' => 'required|string',
+        //]);
+        //$user->tickets()->save($ticket);
         
-        $ticket->categories()->sync($request->input('categories'));
+       // $ticket->categories()->sync($request->input('categories'));
         
-        $services =$request->input('assigned_to');
-        $input = implode(',',$services);
+        //$services =$request->input('assigned_to');
+        //$input = implode(',',$services);
         
         // Associer le ticket aux services sélectionnés
-        $ticket->services()->sync(explode(',', $input));
+        //$ticket->services()->sync(explode(',', $input));
 
         // // Envoyer le ticket à chaque utilisateur des services sélectionnés
         // foreach ($services as $service) {
