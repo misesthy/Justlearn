@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Ticket;
+use App\Models\Category;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\FeedbackRequest;
 use Coderflex\LaravelTicket\Models\Label;
 use Illuminate\Database\Eloquent\Builder;
-use Coderflex\LaravelTicket\Models\Category;
 use App\Notifications\AssignedFeedbackNotification;
 use App\Notifications\NewFeedbackCreatedNotification;
 
@@ -39,7 +39,8 @@ class FeedbackController extends Controller
         }else if(auth()->user()->hasRole('admin')){
             // dd(Feedback::paginate(10));
             //j'affiche pour l'administrateur l'ensemble des derniers feedback faits sur la plateforme
-            $feedbacks = Feedback::latest()->simplePaginate(10);
+            $feedbacks = Feedback::with('user:id,name,email')
+            ->with('ticket')->latest()->simplePaginate(10);
         }else if(auth()->user()->hasRole('agent')){
 
             // dd(auth()->user()->services);
@@ -67,20 +68,26 @@ class FeedbackController extends Controller
 
             J'aimerais faire une requête eloquent qui cherche les feedback des tickets ayant pour services les services de l'utilisateur courant ***/
 
-            $feedbacks = Feedback::join('tickets', 'feedback.ticket_id', '=', 'tickets.id')
-            ->join('service_ticket', 'tickets.id', '=', 'service_ticket.ticket_id')
-            ->join('services', 'service_ticket.service_id', '=', 'services.id')
-            ->whereIn('services.id', $user->services->pluck('id'))
-            ->with('user:id,name,email')
-            ->with('ticket')
-            ->latest('feedback.created_at')
-            ->paginate();
+            $feedbacks = Feedback::all()
+            // ->where('feedback.ticket_id','=','tickets.id')
+            ->where('feedback.ticket_id', '=', 'service_ticket.ticket_id')
+            // ->where('service_ticket.service_id', '=', $user->services->pluck('id'))
+            // ->where('tickets.id', '=', 'feedback.ticket_id')
 
-            // $feedback = Feedback::whereHas('owners', function($q) use($ownerIds) {
-            //     $q->whereIn('id', $ownerIds);
-            // })->get();
 
-            // dd($feedbacks);
+            // ->join('service_ticket', 'tickets.id', '=', 'service_ticket.ticket_id')
+            // ->join('services', 'service_ticket.service_id', '=', 'services.id')
+            // ->whereIn('services.id', $user->services->pluck('id'))
+            // ->with('user:id,name,email')
+            // ->with('ticket')
+            
+            // ->latest('feedback.created_at')
+            // ->paginate();
+            ;
+
+            // $feedbacks = Feedback::all();
+
+            dd($feedbacks);
 
 
 
@@ -135,19 +142,22 @@ class FeedbackController extends Controller
     
         // dd($feedback);
         // $feedback->load(['media', 'messages' => fn ($query) => $query->latest()]);
-
+        // $feedback = $feedback::with('user:id,name,email')
+        //     ->with('ticket')->get;
         return view('feedbacks.show', compact('feedback'));
     }
 
-    public function edit(Feedback $feedback): View
+    public function edit($id): View
     {
         // $this->authorize('update', $feedback);
 
         // $labels = Label::visible()->pluck('name', 'id');
 
-        $categories = Category::visible()->pluck('name', 'id');
+        $categories = Category::all();
 
-        $users = User::role('agent')->orderBy('name')->pluck('name', 'id');
+        // $users = User::role('agent')->orderBy('name')->pluck('name', 'id');
+        $feedback = Feedback::findOrFail($id);
+        dd($feedback);
 
         return view('feedbacks.edit', compact('feedback', 'labels', 'categories', 'users'));
     }
