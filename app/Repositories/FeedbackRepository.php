@@ -24,15 +24,15 @@ class FeedbackRepository
             
             $name = $sender->name;
         
-            $message="L'agent ". $name ." vient de créér un feedBack ticket. vous pouvez consulter votre tableau de bord pour avoir accès à cela";
+            $message="L'agent ". $name ." vient de créér un feedBack pour votre ticket. vous pouvez consulter votre tableau de bord pour avoir accès à cela";
             $mail = [
                 "subject" => "Creation d'un nouveau ticket",
                 "msg" => $message,
             ];
-            
-            // if(count($user)){
-            //     Notification::worker($user, $mail);
-            // }
+
+            if($user->id != null){
+                Notification::worker([$user], $mail);
+            }
             
             
 
