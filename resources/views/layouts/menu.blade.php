@@ -191,7 +191,7 @@
                 </li>
                 @hasrole('agent')
                 <li class="menu-item {{ request()->is('feedLg') ? 'active': '' }}">
-                    <a href="pages-misc-under-maintenance.html" class="menu-link">
+                    <a href="{{ route('feedbacks.index',['user'=>auth()->id()]) }}" class="menu-link">
                         <div data-i18n="Feedback user">Feedback User</div>
                     </a>
                 </li>

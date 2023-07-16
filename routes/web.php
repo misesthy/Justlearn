@@ -62,9 +62,10 @@ Route::middleware('auth')->group(function () {
     Route::get('feedbacks/{id}/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
     Route::get('feedbacks/index', [FeedbackController::class, 'index'])->name('feedbacks.index');
     Route::get('feedbacks/{id}/show', [FeedbackController::class, 'show'])->name('feedbacks.show');
+    Route::get('feedbacks/{ticket_id}/showAll', [FeedbackController::class, 'showAll'])->name('feedbacks.showAll');
     Route::post('feedbacks/{id}/store', [FeedbackController::class, 'store'])->name('feedbacks.store');
     Route::get('feedbacks/{id}/edit', [FeedbackController::class, 'edit'])->name('feedbacks.edit');
-    Route::put('feedbacks/{id}/update', [FeedbackController::class, 'update'])->name('feedbacks.update');
+    Route::patch('feedbacks/{id}/update', [FeedbackController::class, 'update'])->name('feedbacks.update');
     Route::delete('feedbacks/{id}/destroy', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
     // Route::resource('feedbacks', FeedbackController::class);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Ticket;
 use App\Models\Category;
@@ -9,6 +10,7 @@ use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\FeedbackRequest;
+use App\Repositories\FeedbackRepository;
 use Coderflex\LaravelTicket\Models\Label;
 use Illuminate\Database\Eloquent\Builder;
 use App\Notifications\AssignedFeedbackNotification;
@@ -16,7 +18,14 @@ use App\Notifications\NewFeedbackCreatedNotification;
 
 class FeedbackController extends Controller
 {
-    public function index(): View
+
+    private $feedbackRepository = null;
+
+    public function __construct(FeedbackRepository $feedbackRepository) {
+        $this->feedbackRepository = $feedbackRepository;
+    }
+
+    public function index(Request $request): View
     {
         
         // $feedbacks = Feedback::with('user')
@@ -49,6 +58,7 @@ class FeedbackController extends Controller
             //     ->wherePivotIn('priority', [1, 2]);
 
             $user = auth()->user();
+            $currentUserParam = $request->input('user');
             // $feedbacks = Feedback::whereHas('services', function ($query) use ($user) {
             //     $query->whereIn('service_id',  $user->services->pluck('id'));
             // })->get();
@@ -90,13 +100,20 @@ class FeedbackController extends Controller
                 ->whereNull('deleted_at')
                 ->with('user:id,name,email')
                 ->with('ticket')
-                
+                ->when($currentUserParam, function (Builder $query,$currentUserParam){
+                    return $query->where('user_id', '=', $currentUserParam);
+                })
                 ->latest('feedback.created_at')
                 ->paginate();
 
             // $feedbacks = Feedback::all();
 
+            // if($currentUserParam){
+            //     $feedbacks 
+            // }
+
             // dd($feedbacks);
+            
 
 
 
@@ -130,12 +147,26 @@ class FeedbackController extends Controller
         $ticket = Ticket::findOrFail($id);
 
         // Créer une nouvelle réponse
+        // $feedback = new Feedback();
+
+
+        // $feedback->title = $request->input('title');
+        // $feedback->message = $request->input('message');
+        // $feedback->ticket_id = $ticket->id;
+        // $feedback->user_id = auth()->user()->id;
+        // $feedback->save();
+
+
+
         $feedback = new Feedback();
-        $feedback->title = $request->input('title');
-        $feedback->message = $request->input('message');
-        $feedback->ticket_id = $ticket->id;
-        $feedback->user_id = auth()->user()->id;
-        $feedback->save();
+        $feedback->created_at = Carbon::parse($feedback->date)->format('Y-m-d H:i:s'); 
+        $feedback = $this->feedbackRepository->add([
+            'title'=> $request->input('title'),
+            'message'=> $request->input('message'),
+            'ticket_id'=> $ticket->id,
+            'user_id' => auth()->user()->id,
+            'created_at' => $feedback->created_at,
+        ]);
 
         // dd($feedback);
         // Rediriger l'utilisateur vers la page du ticket avec un message de succès
@@ -146,14 +177,24 @@ class FeedbackController extends Controller
         // return response()->json(['message' => 'Réponse envoyée avec succès']);
     }
 
-    public function show(Feedback $feedback): View
+    public function show($id): View
     {
     
         // dd($feedback);
         // $feedback->load(['media', 'messages' => fn ($query) => $query->latest()]);
         // $feedback = $feedback::with('user:id,name,email')
         //     ->with('ticket')->get;
-        return view('feedbacks.show', compact('feedback'));
+
+        $feedbacks = [Feedback::findOrFail($id)];
+
+        return view('feedbacks.show', compact('feedbacks'));
+    }
+    public function showAll($id): View
+    {   
+        $ticket = Ticket::findOrFail($id);
+        $feedbacks = Feedback::where('ticket_id', '=', $ticket->id)->latest()->paginate();
+
+        return view('feedbacks.show', compact('feedbacks'));
     }
 
     public function edit($id): View
@@ -174,7 +215,7 @@ class FeedbackController extends Controller
     {
         // $this->authorize('update', $feedback);
 
-        TicketRequest::where('id', $id)
+        Feedback::where('id', $id)
         ->update([
                'title' => $request->title,
                'message' => $request->message,
@@ -191,7 +232,7 @@ class FeedbackController extends Controller
         //     }
         // }
 
-        return to_route('feedbacks.index');
+        return $this->index();
     }
 
     public function destroy(Feedback $feedback)
