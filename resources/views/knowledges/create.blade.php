@@ -37,7 +37,7 @@
                 <label for="module_id">Module :</label>
                 <select name="module_id" id="module_id" class="form-control" disabled>
                     <option value="">Sélectionnez un module</option>
-                    @dd($modules)
+                    {{-- @dd($modules) --}}
                     {{-- @foreach ($modules as $module)
                     
                     <option value="{{ $module->id }}">{{ $module->name }}</option>

@@ -10,6 +10,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,15 +33,15 @@ Route::get('/', function () {
 // })->middleware('AwsActiveDirectoryAuthMiddleware');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
-
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
     //Route::post('users/store', [UserController::class, 'test'])->name('users.store');
     Route::resource('users', UserController::class);
     // Route::get('users', UserController::class)->name('essai');

@@ -1,4 +1,3 @@
-
 <x-app-layout>
                     <!-- Content wrapper -->
                     <div class="content-wrapper">
@@ -16,7 +15,7 @@
                                                         <span class="fw-bold"></span>
                                                         connected
                                                     </p>
-                                                    <a href="javascript:;" class="btn btn-sm btn-outline-primary"> View </a>
+                                                    {{-- <a href="javascript:;" class="btn btn-sm btn-outline-primary"> View </a> --}}
                                                 </div>
                                             </div>
                                             <div class="col-sm-5 text-center text-sm-left">
@@ -35,6 +34,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-4 order-1">
                                     <div class="row">
+                                        {{-- Total tickets --}}
                                         <div class="col-lg-6 col-md-12 col-6 mb-4">
                                             <div class="card">
                                                 <div class="card-body">
@@ -62,14 +62,16 @@
                                                         </div>
                                                     </div>
                                                     <span class="fw-semibold d-block mb-1">Total tickets</span>
-                                                    <h3 class="card-title mb-2">0</h3>
+                                                    <h3 class="card-title mb-2"> {{ $totalTickets }}</h3>
                                                     <small class="text-success fw-semibold">
-                                                        <i class="bx bx-up-arrow-alt"></i> +72.80%
+                                                        {{-- <i class="bx bx-up-arrow-alt"></i>  --}}
+                                                        {{ $percentagePreviousDay }} % /day &
+                                                        {{ $percentagePreviousMonth }} % /month
                                                     </small>
                                                 </div>
                                             </div>
                                         </div>
-
+                                        {{--/ Total tickets --}}
                                         {{-- Opened tickets --}}
                                         <div class="col-lg-6 col-md-12 col-6 mb-4">
                                             <div class="card">
@@ -98,78 +100,54 @@
                                                         </div>
                                                     </div>
                                                     <span class="fw-semibold d-block mb-1">Opened tickets</span>
-                                                    <h3 class="card-title text-nowrap mb-1">0</h3>
-                                                    <small class="text-success fw-semibold">
+                                                    <h3 class="card-title text-nowrap mb-1"> {{ $openTickets }}</h3>
+                                                    {{-- <small class="text-success fw-semibold">
                                                         <i class="bx bx-up-arrow-alt"></i> +28.42%
-                                                    </small>
+                                                    </small> --}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Total Search -->
+                                <!--/  Opened tickets -->
                                 <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
                                     <div class="card">
                                         <div class="row row-bordered g-0">
-                                            <div class="col-md-8">
-                                                <h5 class="card-header m-0 me-2 pb-3">Total Search</h5>
-                                                <div id="totalRevenueChart" class="px-2"></div>
+                                            <div class="col-md">
+                                                <h5 class="card-header m-0 me-2 pb-3">Total Tickets</h5>
+                                                <div id="ticketCreationChart"></div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="card-body">
-                                                    <div class="text-center">
-                                                        <div class="dropdown">
-                                                            <button
-                                                                class="btn btn-sm btn-outline-primary dropdown-toggle"
-                                                                type="button"
-                                                                id="growthReportId"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false"
-                                                            >
-                                                                2023
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
-                                                                <a class="dropdown-item" href="javascript:void(0);">2023</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">2024</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">2025</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div id="growthChart"></div>
-                                                <div class="text-center fw-semibold pt-3 mb-2">62% Company Growth</div>
-                                                <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
-                                                    <div class="d-flex">
-                                                        <div class="me-2">
-                                                            <span class="badge bg-label-primary p-2">
-                                                                <i class="bx bx-dollar text-primary"></i>
-                                                            </span>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <small>2025</small>
-                                                            <h6 class="mb-0">$32.5k</h6>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <div class="me-2">
-                                                            <span class="badge bg-label-info p-2">
-                                                                <i class="bx bx-wallet text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <small>2024</small>
-                                                            <h6 class="mb-0">$41.2k</h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+                                            <script>
+                                                var ticketsPerDay = {!! json_encode($ticketsPerDay) !!};
+                                                var ticketsPerMonth = {!! json_encode($ticketsPerMonth) !!};
+                                                var options = {
+                                                    chart: {
+                                                        type: 'area',
+                                                        height: 350
+                                                    },
+                                                    series: [
+                                                        {
+                                                            name: 'Tickets par jour',
+                                                            data: Object.values(ticketsPerDay)
+                                                        },
+                                                        {
+                                                            name: 'Tickets par mois',
+                                                            data: Object.values(ticketsPerMonth)
+                                                        }
+                                                    ],
+                                                    xaxis: {
+                                                        categories: Object.keys(ticketsPerDay)
+                                                    }
+                                                };
+                                                var chart = new ApexCharts(document.querySelector('#ticketCreationChart'), options);
+                                                chart.render();
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
                                 <!--/ Total Searh -->
-
-                                <!-- Ongoing tickets -->
+                                <!-- deleted tickets -->
                                 <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                                     <div class="row">
                                         <div class="col-6 mb-4">
@@ -195,19 +173,19 @@
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
                                                                 <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <span class="d-block mb-1">Ongoing tickets</span>
-                                                    <h3 class="card-title text-nowrap mb-2">O</h3>
-                                                    <small class="text-danger fw-semibold">
+                                                    <span class="d-block mb-1">Deleted tickets</span>
+                                                    <h3 class="card-title text-nowrap mb-2">{{ $deletedTickets }}</h3>
+                                                    {{-- <small class="text-danger fw-semibold">
                                                         <i class="bx bx-down-arrow-alt"></i> -14.82%
-                                                    </small>
+                                                    </small> --}}
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--/ Ongoing Tickets -->
+                                        <!--/ Deleted Tickets -->
 
                                         <div class="col-6 mb-4">
                                             <div class="card">
@@ -237,10 +215,10 @@
                                                         </div>
                                                     </div>
                                                     <span class="fw-semibold d-block mb-1">Closed tickets</span>
-                                                    <h3 class="card-title mb-2">0</h3>
-                                                    <small class="text-success fw-semibold">
+                                                    <h3 class="card-title mb-2">{{ $closedTickets }}</h3>
+                                                    {{-- <small class="text-success fw-semibold">
                                                         <i class="bx bx-up-arrow-alt"></i> +28.14%
-                                                    </small>
+                                                    </small> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -272,10 +250,10 @@
                                                             </div>
                                                          </div>
                                                             <span class="fw-semibold d-block mb-1">Total users</span>
-                                                            {{-- <h3 class="card-title mb-2">{{ $totalUsers }}</h3> --}}
-                                                            <small class="text-success fw-semibold">
+                                                             <h3 class="card-title mb-2">{{ $totalUsers }}</h3>
+                                                            {{-- <small class="text-success fw-semibold">
                                                                 <i class="bx bx-up-arrow-alt"></i> +28.14%
-                                                            </small>
+                                                            </small> --}}
                                                         </div>
                                                     </div>
                                         </div>
@@ -306,11 +284,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <span>Deleted users</span>
-                                                    <h3 class="card-title text-nowrap mb-1">0</h3>
-                                                    <small class="text-success fw-semibold">
+                                                    <span class="fw-semibold d-block mb-1">Deleted users</span>
+                                                    <h3 class="card-title text-nowrap mb-2">{{ $deletedUsers }}</h3>
+                                                    {{-- <small class="text-success fw-semibold">
                                                         <i class="bx bx-up-arrow-alt"></i> +28.14%
-                                                    </small>
+                                                    </small> --}}
                                                 </div>
                                             </div>
                                             </a>
@@ -319,115 +297,69 @@
                                        
                                     </div>
                                 </div>
+                                <!--/ deleted tickets -->
                             </div>
                             <div class="row">
                                 <!-- Order Statistics -->
-                                <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
+                                <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
                                     <div class="card h-100">
                                         <div class="card-header d-flex align-items-center justify-content-between pb-0">
                                             <div class="card-title mb-0">
                                                 <h5 class="m-0 me-2">Order Statistics</h5>
-                                                <small class="text-muted">42.82k Total Sales</small>
-                                            </div>
-                                            <div class="dropdown">
-                                                <button
-                                                    class="btn p-0"
-                                                    type="button"
-                                                    id="orederStatistics"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false"
-                                                >
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
-                                                    <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <div class="d-flex flex-column align-items-center gap-1">
-                                                    <h2 class="mb-2">8,258</h2>
-                                                    <span>Total Orders</span>
-                                                </div>
-                                                <div id="orderStatisticsChart"></div>
+                                            <div id="userTicketsDonutChart"></div>
+                                            <div class="legend">
+                                                <h4>Explication des parties :</h4>
+                                                <ul>
+                                                    @foreach($data as $item)
+                                                        <li>
+                                                            <span class="legend-label">{{ $item['label'] }}</span>
+                                                            <span class="legend-value">({{ $item['value'] }} tickets)</span>
+                                                        </li>
+                                                        <hr class="legend-divider">
+                                                    @endforeach
+                                                </ul>
                                             </div>
-                                            <ul class="p-0 m-0">
-                                                <li class="d-flex mb-4 pb-1">
-                                                    <div class="avatar flex-shrink-0 me-3">
-                                                        <span class="avatar-initial rounded bg-label-primary">
-                                                            <i class="bx bx-mobile-alt">
-                                                            </i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                        <div class="me-2">
-                                                            <h6 class="mb-0">Electronic</h6>
-                                                            <small class="text-muted">Mobile, Earbuds, TV</small>
-                                                        </div>
-                                                        <div class="user-progress">
-                                                            <small class="fw-semibold">10.5k</small>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex mb-4 pb-1">
-                                                    <div class="avatar flex-shrink-0 me-3">
-                                                        <span class="avatar-initial rounded bg-label-success">
-                                                            <i class="bx bx-closet"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                        <div class="me-2">
-                                                            <h6 class="mb-0">Fashion</h6>
-                                                            <small class="text-muted">T-shirt, Jeans, Shoes</small>
-                                                        </div>
-                                                        <div class="user-progress">
-                                                            <small class="fw-semibold">23.8k</small>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex mb-4 pb-1">
-                                                    <div class="avatar flex-shrink-0 me-3">
-                                                        <span class="avatar-initial rounded bg-label-info">
-                                                            <i class="bx bx-home-alt"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                        <div class="me-2">
-                                                            <h6 class="mb-0">Decor</h6>
-                                                            <small class="text-muted">Fine Art, Dining</small>
-                                                        </div>
-                                                        <div class="user-progress">
-                                                            <small class="fw-semibold">849k</small>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex">
-                                                    <div class="avatar flex-shrink-0 me-3">
-                                                        <span class="avatar-initial rounded bg-label-secondary">
-                                                            <i class="bx bx-football">
-                                                            </i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                        <div class="me-2">
-                                                            <h6 class="mb-0">Sports</h6>
-                                                            <small class="text-muted">Football, Cricket Kit</small>
-                                                        </div>
-                                                        <div class="user-progress">
-                                                            <small class="fw-semibold">99</small>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                            <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+                                            <script>
+                                                var chartData = {!! json_encode($data) !!};
+
+                                                var seriesData = chartData.map(function(item) {
+                                                    return item.value;
+                                                });
+
+                                                var options = {
+                                                    chart: {
+                                                        type: 'donut',
+                                                        height: 250
+                                                    },
+                                                    series: seriesData,
+                                                    labels: chartData.map(function(item) {
+                                                        return item.label;
+                                                    }),
+                                                    responsive: [{
+                                                        breakpoint: 480,
+                                                        options: {
+                                                            chart: {
+                                                                width: 500
+                                                            },
+                                                            legend: {
+                                                                position: 'bottom'
+                                                            }
+                                                        }
+                                                    }]
+                                                };
+
+                                                var chart = new ApexCharts(document.querySelector('#userTicketsDonutChart'), options);
+                                                chart.render();
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
                                 <!--/ Order Statistics -->
-                                <!-- Expense Overview -->
+                                {{-- <!-- Expense Overview -->
                                 <div class="col-md-6 col-lg-4 order-1 mb-4">
                                     <div class="card h-100">
                                         <div class="card-header">
@@ -486,8 +418,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ Expense Overview -->
-                                
+                                <!--/ Expense Overview --> --}}
                             </div>
                         </div>
                         <!-- / Content -->

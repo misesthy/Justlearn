@@ -25,17 +25,26 @@
            {{-- Lists [Users/Group] --}}
            {{-- ---------------- [ User Tab ] ---------------- --}}
            <div class="show messenger-tab users-tab app-scroll" data-view="users">
-               {{-- Favorites --}}
-               <div class="favorites-section">
+                {{-- Favorites --}}
+                <div class="favorites-section">
                 <p class="messenger-title"><span>Favorites</span></p>
                 <div class="messenger-favorites app-scroll-hidden"></div>
-               </div>
-               {{-- Saved Messages --}}
-               <p class="messenger-title"><span>Your Space</span></p>
-               {!! view('Chatify::layouts.listItem', ['get' => 'saved']) !!}
-               {{-- Contact --}}
-               <p class="messenger-title"><span>All Messages</span></p>
-               <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
+                </div>
+                {{-- Saved Messages --}}
+                <p class="messenger-title"><span>Your Space</span></p>
+                {!! view('Chatify::layouts.listItem', ['get' => 'saved']) !!}
+                {{-- Contact --}}
+                <p class="messenger-title"><span>All Messages</span></p>
+                <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;">
+                    <ul>
+                        {{-- @foreach($messages as $message)
+                            <li>
+                                <span>{{ $ch_message->body }}</span>
+                                <span>{{ $ch_message->user->name }}</span>
+                            </li>
+                        @endforeach --}}
+                    </ul>
+                </div>
            </div>
              {{-- ---------------- [ Search Tab ] ---------------- --}}
            <div class="messenger-tab search-tab app-scroll" data-view="search">
@@ -58,7 +67,7 @@
                     <a href="#" class="show-listView"><i class="fas fa-arrow-left"></i></a>
                     <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px;">
                     </div>
-                    <a href="#" class="user-name">{{ config('chatify.name') }}</a>
+                    <a href="#" class="user-name">{{ Auth::user()->name }}</a>
                 </div>
                 {{-- header buttons --}}
                 <nav class="m-header-right">

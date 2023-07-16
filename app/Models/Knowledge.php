@@ -15,10 +15,10 @@ class Knowledge extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // public function module(): BelongsTo
-    // {
-    //     return $this->belongsTo(Module::class);
-    // }
+    public function module(): BelongsTo
+    {
+        return $this->belongsTo(Module::class);
+    }
 
     public function users(): BelongsToMany
     {
