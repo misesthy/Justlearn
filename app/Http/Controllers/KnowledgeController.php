@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KnowledgeRequest;
 use App\Models\Domain;
 use App\Models\Module;
 use App\Models\Application;
@@ -10,7 +11,6 @@ use App\Models\Knowledge;
 
 class KnowledgeController extends Controller
 {
-
       /**
      * Display a listing of the resource.
      *
@@ -28,32 +28,14 @@ class KnowledgeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Application $application)
     {
-        $domains = Domain::all();
-
-        return view('knowledges.create', compact('domains'));
-    }
-
-    public function getApplications(Request $request)
-    {
-        $applications = Application::where('domain_id', $request->domain_id)->get();
-
-        return response()->json($applications);
-    }
-
-    public function getModules(Request $request)
-    {
-        $modules = Module::where('application_id', $request->application_id)->get();
-
-        return response()->json($modules);
-    }
-
-    public function getKnowledges(Request $request)
-    {
-        $knowledges = Knowledge::where('module_id', $request->module_id)->get();
-
-        return response()->json($knowledges);
+        $modules = $application->modules;
+        
+        $applications = Application::all();
+        
+        // dd($modules);
+        return view('knowledges.create', compact('applications','modules'));
     }
 
     /**
@@ -62,12 +44,21 @@ class KnowledgeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(KnowledgeRequest $request)
     {
         $knowledge = new Knowledge();
-        $knowledge->name = $request->name;
+        $knowledge->title = $request->title;
         $knowledge->module_id = $request->module_id;
-        // Autres attributs de la knowledge
+      
+         // Valider les données du formulaire
+        $validatedData = $request->validate([
+            'application_id' => 'required',
+            'module_id' => 'required',
+            // Ajoutez d'autres règles de validation si nécessaire
+        ]);
+        
+        // Créer la connaissance
+        $knowledge = Knowledge::create($validatedData);
 
         $knowledge->save();
 

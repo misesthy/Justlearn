@@ -1,14 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        {{ __('Knowledge') }}
-    </x-slot>
 
      <!-- Content wrapper -->
      <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h2 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Tickets /</span> Create Ticket
+                <span class="text-muted fw-light">Knowledges /</span> Create Knowledge
             </h2>
 
 
@@ -16,7 +13,7 @@
 
         <form action="{{ route('knowledges.store') }}" method="POST">
             @csrf
-        
+{{--         
             <div class="form-group">
                 <label for="domain">Domaine de connaissance</label>
                 <select name="domain" id="domain" class="form-control">
@@ -25,28 +22,77 @@
                         <option value="{{ $domain->id }}">{{ $domain->name }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
         
             <div class="form-group">
-                <label for="application">Application</label>
-                <select name="application" id="application" class="form-control">
-                    <option value="">Sélectionner une application</option>
+                <label for="application_id">Application :</label>
+                <select name="application_id" id="application_id" class="form-control">
+                    <option value="">Sélectionnez une application</option>
+                    @foreach ($applications as $application)
+                        <option value="{{ $application->id }}">{{ $application->name }}</option>
+                    @endforeach
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="module_id">Module :</label>
+                <select name="module_id" id="module_id" class="form-control" disabled>
+                    <option value="">Sélectionnez un module</option>
+                    {{-- @dd($modules) --}}
+                    {{-- @foreach ($modules as $module)
+                    
+                    <option value="{{ $module->id }}">{{ $module->name }}</option>
+                @endforeach --}}
+                </select>
+            </div>
+
+            <div>
+                <x-input-label for="title" :value="__('Title')" />
+                <x-input type="text"
+                              id="title"
+                              name="title"
+                              class="block w-full"
+                              value="{{ old('title') }}"
+                              required />
+                <x-input-error :messages="$errors->get('title')" class="mt-2" />
+            </div>
+
+            <div class="mt-4">
+                <x-input-label for="short_text" :value="__('Resume')" />
+                <textarea id="short_text"
+                          name="short_text"
+                          class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                          required>{{ old('short_text') }}</textarea>
+                <x-input-error :messages="$errors->get('message')" class="mt-2" />
+            </div>
+
+            <div class="mt-4">
+                <x-input-label for="full_text" :value="__('Description')" />
+                <textarea id="full_text"
+                          name="full_text"
+                          class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                          required>{{ old('full_text') }}</textarea>
+                <x-input-error :messages="$errors->get('message')" class="mt-2" />
             </div>
         
-            <div class="form-group">
-                <label for="module">Module</label>
-                <select name="module" id="module" class="form-control">
-                    <option value="">Sélectionner un module</option>
-                </select>
-            </div>
-        
-            <div class="form-group">
-                <label for="knowledge">Connaissance</label>
-                <select name="knowledge" id="knowledge" class="form-control">
-                    <option value="">Sélectionner une connaissance</option>
-                </select>
-            </div>
+            <div class="button-wrapper">
+                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                  <span class="d-none d-sm-block">Upload file</span>
+                  <i class="bx bx-upload d-block d-sm-none"></i>
+                  <input
+                    type="file"
+                    id="upload"
+                    name="file"
+                    class="account-file-input"
+                    hidden
+                  />
+                </label>
+                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                  <i class="bx bx-reset d-block d-sm-none"></i>
+                  <span class="d-none d-sm-block">Reset</span>
+                </button>
+
+                <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+              </div>
         
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
@@ -86,4 +132,27 @@
 <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#application_id').on('change', function() {
+            var applicationId = $(this).val();
+            $('#module_id').prop('disabled', true);
+            $('#module_id').html('<option value="">Sélectionnez un module</option>');
+            
+            if (applicationId) {
+                $.ajax({
+                    url: '/create' + applicationId,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#module_id').prop('disabled', false);
+                        $('#module_id').html(response);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+@endpush
 </x-app-layout>

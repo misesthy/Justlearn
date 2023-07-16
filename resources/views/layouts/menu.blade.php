@@ -199,6 +199,15 @@
             </ul>
         </li>
         @endhasrole
+        <!-- Chat -->
+        @hasrole('agent|user')
+        <li class="menu-item {{ request()->is('chat') ? 'active': '' }}">
+            <a href="{{ route('chat') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <div data-i18n="Notification">Chat</div>
+            </a>
+        </li>
+        @endhasrole
         <!-- ligne -->
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text"></span>

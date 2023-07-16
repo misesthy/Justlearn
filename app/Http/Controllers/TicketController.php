@@ -28,14 +28,28 @@ class TicketController extends Controller
         $this->ticketRepository = $ticketRepository;
     }
 
-    public function index(): View
+    public function index(Request $request): View
     { 
+        $tickets = Ticket::with('services', 'categories', 'priority','user')
+        ->when($request->has('status'), function (Builder $query) use ($request) {
+            return $query->where('status', $request->input('status'));
+        })
+        ->when($request->has('priority'), function (Builder $query) use ($request) {
+            return $query->withPriority($request->input('priority'));
+        })
+        ->when($request->has('category'), function (Builder $query) use ($request) {
+            return $query->whereRelation('categories', 'id', $request->input('category'));
+        })
+        ->when($request->has('assigned_to'), function (Builder $query) use ($request) {
+            return $query->where('services',$request->input('services') );
+        })
+        ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
+            $query->where('user_id', auth()->user()->id);
+        })
+        ->latest()
+        ->paginate();
 
-        $user = User::all();
-        $priority = Priority::all();
-        $tickets = Ticket::with('services', 'categories')->latest()->paginate();
-
-        return view('tickets.index', compact('tickets', 'user', 'priority'));
+        return view('tickets.index', compact('tickets'));
     }
 
     public function receive(Request $request): View
@@ -77,7 +91,7 @@ class TicketController extends Controller
         $priority = Priority::all()->pluck('name', 'id');
         $services = Service::all();
         $status = Status::all()->pluck('name', 'id');
-        // dd($categories);
+        
         return view('tickets.create', compact('categories','priority','services', 'status'));
     }
 
