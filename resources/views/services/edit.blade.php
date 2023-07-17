@@ -21,9 +21,9 @@
             </div>
 
             <div class="mt-4">
-                <x-primary-button>
+                <x-button>
                     {{ __('Submit') }}
-                </x-primary-button>
+                </x-button>
             </div>
         </form>
 

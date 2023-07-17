@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Ticket;
 use App\Models\Service;
 use App\Models\Category;
-use App\Models\Feedback;
 use App\Models\Priority;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -30,24 +29,24 @@ class TicketController extends Controller
 
     public function index(Request $request): View
     { 
-        $tickets = Ticket::with('services', 'categories', 'priority','user')
-        ->when($request->has('status'), function (Builder $query) use ($request) {
-            return $query->where('status', $request->input('status'));
-        })
-        ->when($request->has('priority'), function (Builder $query) use ($request) {
-            return $query->withPriority($request->input('priority'));
-        })
-        ->when($request->has('category'), function (Builder $query) use ($request) {
-            return $query->whereRelation('categories', 'id', $request->input('category'));
-        })
-        ->when($request->has('assigned_to'), function (Builder $query) use ($request) {
-            return $query->where('services',$request->input('services') );
-        })
-        ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
-            $query->where('user_id', auth()->user()->id);
-        })
-        ->latest()
-        ->paginate();
+ $tickets = Ticket::with('services', 'categories', 'priority','user')
+            ->when($request->has('status'), function (Builder $query) use ($request) {
+                return $query->where($request->input('status'));
+            })
+            ->when($request->has('priority'), function (Builder $query) use ($request) {
+                return $query->withPriority($request->input('priority'));
+            })
+            ->when($request->has('category'), function (Builder $query) use ($request) {
+                return $query->whereRelation('categories', 'id', $request->input('category'));
+            })
+            ->when($request->has('assigned_to'), function (Builder $query) use ($request) {
+                return $query->where('services',$request->input('services') );
+            })
+            ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->latest()
+            ->paginate();
 
         return view('tickets.index', compact('tickets'));
     }
@@ -56,7 +55,7 @@ class TicketController extends Controller
     { 
         $tickets = Ticket::with('services', 'categories', 'priority','user')
             ->when($request->has('status'), function (Builder $query) use ($request) {
-                return $query->where('status', $request->input('status'));
+                return $query->where($request->input('status'));
             })
             ->when($request->has('priority'), function (Builder $query) use ($request) {
                 return $query->withPriority($request->input('priority'));
@@ -97,15 +96,13 @@ class TicketController extends Controller
 
     public function storage(TicketRequest $request)
     {
-        
-
-
         $ticket = new Ticket();
         $ticket->created_at = Carbon::parse($ticket->date)->format('Y-m-d H:i:s'); 
         $ticket = $this->ticketRepository->add([
             'title'=> $request->input('title'),
             'message'=> $request->input('message'),
             'priority_id' => $request->input('priority_id'),
+            // 'status_id' => $request->input('priority_id'),
             'user_id' => auth()->user()->id,
             'id_service'=>$request->input('assigned_to'),
             'id_categorie'=>$request->input('categories'),
@@ -151,7 +148,6 @@ class TicketController extends Controller
         //     }
 
         // }
-
         
         return redirect()->route('tickets.index');
 
@@ -159,8 +155,7 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket): View
     {
-        // $this->authorize('view', $ticket);
-
+        // dd($ticket);
         // $ticket->load(['media', 'messages' => fn ($query) => $query->latest()]);
 
         return view('tickets.show', compact('ticket'));
@@ -168,26 +163,25 @@ class TicketController extends Controller
 
     public function edit(Ticket $ticket): View
     {
-        // $this->authorize('update', $ticket);
-
-        $categories = Category::all()->pluck('name', 'id');
-        $priority = Priority::all()->pluck('name', 'id');
-        $services = Service::all();
+        // $categories = Category::all()->pluck('name', 'id');
+        // $priority = Priority::all()->pluck('name', 'id');
+        // $services = Service::all();
         $status = Status::all()->pluck('name', 'id');
-        $users = User::role('agent')->orderBy('name')->pluck('name', 'id');
-
-        return view('tickets.edit', compact('ticket', 'categories', 'users', 'priority', 'status', 'services'));
+        // dd($ticket);
+        return view('tickets.edit', compact('ticket', 'status'));
     }
 
     public function update(TicketRequest $request, Ticket $ticket)
     {
+        dd('bonjour');
         // $ticket->update($request->only('status'));
         $status = Status::find($request->input('status_id'));
         $ticket->priority()->associate($status);
 
-        dd($ticket);
+        
+         dd($ticket);
 
-        return redirect()->route('tickets.index');
+        return redirect()->route('tickets.ticket');
     }
     
     public function destroy(Ticket $ticket)

@@ -98,9 +98,10 @@ class UserController extends Controller
         // $user->services()->sync($service);
         // $user->save();
         $services =$request->input('services');
-        $input = implode(',',$services);
-        $user->services()->sync(explode(',', $input));
-
+        if ($services != null) {
+            $input = implode(',',$services);
+            $user->services()->sync(explode(',', $input));
+        }
         return redirect()->route('users.index');
     }
 

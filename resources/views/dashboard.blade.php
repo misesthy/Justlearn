@@ -56,8 +56,8 @@
                                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                <a class="dropdown-item" href="{{ route('tickets.index') }}">View More</a>
+                                                                {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -95,7 +95,7 @@
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
                                                                 <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -107,9 +107,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!--/  Opened tickets -->
                                     </div>
                                 </div>
-                                <!--/  Opened tickets -->
+                                
                                 <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
                                     <div class="card">
                                         <div class="row row-bordered g-0">
@@ -147,9 +148,11 @@
                                     </div>
                                 </div>
                                 <!--/ Total Searh -->
-                                <!-- deleted tickets -->
+                              
                                 <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                                     <div class="row">
+                                        @hasrole('admin')
+                                        <!-- deleted tickets -->
                                         <div class="col-6 mb-4">
                                             
                                             <div class="card">
@@ -186,7 +189,8 @@
                                             </div>
                                         </div>
                                         <!--/ Deleted Tickets -->
-
+                                        @endhasrole
+                                        <!-- Closed Tickets -->
                                         <div class="col-6 mb-4">
                                             <div class="card">
                                                 <div class="card-body">
@@ -194,7 +198,7 @@
                                                         
                                             <a href="{{ route('dashboard') }}" class="menu-link">
                                                         <div class="avatar flex-shrink-0">
-                                                            <img src="{{asset('assets/img/icons/unicons/close-ticket.svg')}}" alt="Credit Card" class="rounded">
+                                                            <img src="{{asset('assets/img/icons/unicons/close-ticket.svg')}}" alt="Closed ticket" class="rounded">
                                                         </div>
                                             </a>
                                                         <div class="dropdown">
@@ -210,7 +214,7 @@
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="cardOpt1">
                                                                 <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -222,7 +226,9 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <!--/ Closed Tickets -->
+                                        @hasrole('admin')
+                                        <!-- Total Users -->
                                         <div class="col-6 mb-4">
                                                 <div class="card">
                                                     <div class="card-body">
@@ -244,8 +250,8 @@
                                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                                                 </button>
                                                                 <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                                                                    <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                    <a class="dropdown-item" href="{{ route('users.index') }}">View More</a>
+                                                                    {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                                                 </div>
                                                             </div>
                                                          </div>
@@ -257,6 +263,7 @@
                                                         </div>
                                                     </div>
                                         </div>
+                                        <!--/ Total Users -->
                                         <div class="col-lg-6 col-md-12 col-6 mb-4">
                                             <a href="{{ route('dashboard') }}" class="menu-link">
                                             <div class="card">
@@ -280,7 +287,7 @@
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="cardOpt1">
                                                                 <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                                {{-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -293,11 +300,12 @@
                                             </div>
                                             </a>
                                         </div>
-                                        
+                                         <!--/ Deleted Users -->
+                                        @endhasrole
                                        
                                     </div>
                                 </div>
-                                <!--/ deleted tickets -->
+                                
                             </div>
                             <div class="row">
                                 <!-- Order Statistics -->
