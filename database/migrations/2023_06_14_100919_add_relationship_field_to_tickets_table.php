@@ -14,7 +14,7 @@ class AddRelationshipFieldToTicketsTable extends Migration
     public function up()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->foreignId('status_id')->nullable()->constrained();
+            $table->foreignId('status_id')->default(1)->constrained();
             $table->foreignId('priority_id')->constrained();
             $table->foreignId('user_id')->constrained();
         });

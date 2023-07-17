@@ -14,10 +14,26 @@ class DashboardController extends Controller
     {
        // decompte
         $totalUsers = User::count();
-        $totalTickets = Ticket::count();
-        $openTickets =  Ticket::where('status', 'open')->count();
-        $closedTickets =  Ticket::where('status', 'closed')->count();
+
+        $totalTickets = Ticket::when(auth()->user()->hasRole('user|agent'), function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })
+        ->count();
+
+        $openTickets =  Ticket::where('status_id', 2)
+            ->when(auth()->user()->hasRole('user|agent'), function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+        ->count();
+
+        $closedTickets =  Ticket::where('status_id', 3)
+            ->when(auth()->user()->hasRole('user|agent'), function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+        ->count();
+
         $deletedTickets = Ticket::onlyTrashed()->count();
+        
         $deletedUsers =  User::onlyTrashed()->count();
 
         // mettre le pourcentage par jour & par mois
@@ -69,7 +85,7 @@ class DashboardController extends Controller
             $data = [];
         
             foreach ($users as $user) {
-                $totalTickets = $user->tickets->count();
+                $totalTicket = $user->tickets->count();
         
                 $label = $user->name;
                 $label .= ($user->services->count() > 0) ? ' (avec service)' : ' (sans service)';
@@ -77,7 +93,7 @@ class DashboardController extends Controller
                 foreach ($user->roles as $role) {
                     $data[] = [
                         'label' => $label . ' - ' . $role->name,
-                        'value' => $totalTickets
+                        'value' => $totalTicket
                     ];
                 }
             }

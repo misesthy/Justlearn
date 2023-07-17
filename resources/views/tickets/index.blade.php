@@ -85,7 +85,7 @@
                                             {{ $ticket->user->name }}
                                         </td>
                                         <td class="px-4 py-3 text-sm">
-                                            {{ $ticket->status }}
+                                            {{ $ticket->status->name }}
                                         </td>
                                         <td class="px-4 py-3 text-sm">
                                             {{ $ticket->priority->name }}
@@ -106,14 +106,18 @@
                                         </td>
                                         <td class="px-4 py-3 space-x-2">
                                             @role('agent')
+                                            @if ($ticket->user->name != auth()->user()->name)
                                                 <a class="rounded-lg border-2 border-transparent bg-purple-600 px-4 py-2 text-center text-sm font-medium leading-5 text-white transition-colors duration-150 hover:bg-purple-700 focus:outline-none focus:ring active:bg-purple-600"
                                                     href="{{ route('tickets.show', $ticket) }}">
                                                     {{ __('Show') }}
                                                 </a>
+                        
                                                 <a class="rounded-lg border-2 border-transparent bg-purple-600 px-4 py-2 text-center text-sm font-medium leading-5 text-white transition-colors duration-150 hover:bg-purple-700 focus:outline-none focus:ring active:bg-purple-600"
-                                                    href="{{ route('tickets.edit', $ticket) }}">
-                                                    {{ __('Edit') }}
-                                                </a>
+                                                href="{{ route('tickets.edit', $ticket) }}">
+                                                {{ __('Edit') }}
+                                            </a>
+                                                @endif
+                                                
                                             @endrole
                                             @role('admin')
                                                 <form action="{{ route('tickets.destroy', $ticket) }}" method="POST"
@@ -131,6 +135,14 @@
                                         <td class="px-4 py-3">
                                             <x-links.button-link href="{{ route('feedbacks.showAll', $ticket) }}">Feedbacks</x-links.button-link>
                                         </td>
+                                        @endrole
+
+                                        @role('agent')
+                                        @if ($ticket->user->name = auth()->user()->name)
+                                        <td class="px-4 py-3">
+                                            <x-links.button-link href="{{ route('feedbacks.showAll', $ticket) }}">Feedbacks</x-links.button-link>
+                                        </td>
+                                        @endif
                                         @endrole
                                     </tr>
                                 @empty

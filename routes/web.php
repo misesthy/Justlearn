@@ -47,19 +47,20 @@ Route::middleware('auth')->group(function () {
     // Route::get('users', UserController::class)->name('essai');
 
     // Route::get('/tickets/{user}', [TicketController::class, 'view'])->name('tickets.view');
+    Route::get('tickets/create', [TicketController::class, 'create'])->name('tickets.create');
+    Route::get('tickets/index', [TicketController::class, 'index'])->name('tickets.index');
+    Route::get('tickets/{ticket}/show', [TicketController::class, 'show'])->name('tickets.show');
     Route::get('tickets/ticket_receive', [TicketController::class, 'receive'])->name('tickets.ticket');
-    Route::post('tickets/upload', [TicketController::class, 'upload'])->name('tickets.upload');
-    Route::patch('tickets/{ticket}/close', [TicketController::class, 'close'])->name('tickets.close');
+    // Route::post('tickets/upload', [TicketController::class, 'upload'])->name('tickets.upload');
     Route::post('tickets/storage', [TicketController::class, 'storage'])->name('tickets.storage');
-    Route::patch('tickets/{ticket}/reopen', [TicketController::class, 'reopen'])->name('tickets.reopen');
-    Route::patch('tickets/{ticket}/archive', [TicketController::class, 'archive'])->name('tickets.archive');
-    // Route::post('tickets/{id}/reply', [TicketController::class, 'replyToTicket'])->name('tickets.reply');
+    Route::get('tickets/{ticket}/edit', [TicketController::class, 'edit'])->name('tickets.edit');
+    Route::patch('tickets/{ticket}/update', [TicketController::class, 'update'])->name('tickets.update');
+    Route::delete('tickets/{id}/destroy', [TicketController::class, 'destroy'])->name('tickets.destroy');
     Route::resource('tickets', TicketController::class);
 
     Route::resource('services', ServiceController::class);
 
     Route::post('/tickets/{id}/reply', 'TicketController@replyToTicket')->name('tickets.reply');
-    // Route::post('feedbacks/{ticketId}/reply', [TicketController::class, 'replyToTicket'])->name('tickets.replyToTicket');
     Route::get('feedbacks/{id}/create', [FeedbackController::class, 'create'])->name('feedbacks.create');
     Route::get('feedbacks/index', [FeedbackController::class, 'index'])->name('feedbacks.index');
     Route::get('feedbacks/{id}/show', [FeedbackController::class, 'show'])->name('feedbacks.show');
@@ -104,6 +105,9 @@ Route::middleware('auth')->group(function () {
     Route::get('application/{id}/show', [ApplicationController::class, 'show'])->name('applications.show');
     Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
 
+    Route::get('/detail', function () {
+        return view('knowledges.searchdetail');
+    });
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('user', UserController::class)->except('show');

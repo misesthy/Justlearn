@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             ModuleSeeder::class,
         ]);
 
-        \App\Models\User::factory(10)
+        \App\Models\User::factory(5)
             ->create()
             ->each(fn ($user) => $user->assignRole('user'));
    }

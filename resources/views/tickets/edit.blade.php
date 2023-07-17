@@ -9,52 +9,9 @@
             @csrf
             @method('PATCH')
 
-            <div>
-                <x-input-label for="title" :value="__('Title')" />
-                <x-input type="text"
-                              id="title"
-                              name="title"
-                              class="block w-full"
-                              value="{{ old('title', $ticket->title) }}"
-                              required />
-                <x-input-error :messages="$errors->get('title')" class="mt-2" />
-            </div>
-
             <div class="mt-4">
-                <x-input-label for="message" :value="__('Message')" />
-                <textarea id="message"
-                          name="message"
-                          class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
-                          required>{{ old('message', $ticket->message) }}</textarea>
-                <x-input-error :messages="$errors->get('message')" class="mt-2" />
-            </div>
-
-            <div class="mt-4">
-                <x-input-label for="categories" :value="__('Categories')" />
-                    @foreach($categories as $id => $name)
-                        <div class="mt-1 inline-flex space-x-1">
-                            <input class="text-purple-600 form-checkbox focus:shadow-outline-purple focus:border-purple-400 focus:outline-none"
-                                   type="checkbox" name="categories[]" id="category-{{ $id }}" value="{{ $id }}"
-                                    @checked(old('categories') ? in_array($id, old('categories', [])) : )>
-                            <x-input-label for="category-{{ $id }}">{{ $name }}</x-input-label>
-                        </div>
-                    @endforeach
-                <x-input-error :messages="$errors->get('categories')" class="mt-2" />
-            </div>
-
-            <div class="mt-4">
-                <x-input-label for="priority" :value="__('Priority')" />
-                <select name="priority_id" id="priority" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50">
-                    @foreach($priority as $id => $name)
-                        <option value="{{ $id }}" @selected(old {{ (isset($ticket) && $ticket->priority ? $ticket->priority->id : old('priority_id')) == $id ? 'selected' : '' }})>{{ $name }}</option>
-                    @endforeach
-                </select>
-                <x-input-error :messages="$errors->get('priority')" class="mt-2" />
-            </div>
-
-            <div class="mt-4">
-                <x-input-label for="status" :value="__('Status')" />
-                <select name="status_id" id="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50">
+                <x-input-label for="status_id" :value="__('Status')" />
+                <select name="status_id" id="status_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50">
                     @foreach($status as $id => $name)
                         <option value="{{ $id }}" @selected( {{ (isset($ticket) && $ticket->status ? $ticket->id : old('status_id')) == $id ? 'selected' : '' }})>{{ $name }}</option>
                     @endforeach
@@ -62,14 +19,56 @@
                 <x-input-error :messages="$errors->get('status')" class="mt-2" />
             </div>
 
+            <div>
+                <x-input-label for="title" :value="__('Title')" />
+                <input type="text" 
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                name="title" 
+                value="{{ $ticket->title }}" 
+                disabled>
+            </div>
+
+            <div class="mt-4">
+                <x-input-label for="message" :value="__('Message')" />
+                <input type="text" 
+                class="mt-1 block h-32 w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                name="message" 
+                value="{{ $ticket->message }}" 
+                disabled>
+                
+            </div>
+
+            <div class="mt-4">
+                <x-input-label for="categories" :value="__('Category')" />
+                <input type="text" 
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                name="categories" 
+                value=" @foreach($ticket->categories as $category)
+                            {{ $category->name }}
+                         @endforeach" 
+                disabled>
+               
+            </div>
+
+            <div class="mt-4">
+                <x-input-label for="priority" :value="__('Priority')" />
+                <input type="text" 
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                name="priority_id" 
+                value="{{ $ticket->priority()->first() ? $ticket->priority()->first()->name:'' }}" 
+                disabled>
+            </div>
+
             <div class="mt-4">
                 <x-input-label for="assigned_to" :value="__('Assign to')" />
-                <select name="assigned_to[]" id="assigned_to" class="form-control services mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50" multiple>
-                    @foreach($services as $service)
-                        <option value="{{ $service->id }}" @selected(old('assigned_to', []))>{{ $service->name }}</option>
-                    @endforeach
-                </select>
-                <x-input-error :messages="$errors->get('assigned_to')" class="mt-2" />
+                <input type="text" 
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus-within:text-primary-600 focus:border-primary-300 focus:ring-primary-200 focus:ring focus:ring-opacity-50"
+                name="assigned_to" 
+                value="@foreach($ticket->services as $service)
+                        {{ $service->name }}
+                    @endforeach" 
+                disabled>
+                
             </div>
 {{-- 
             <div class="mt-4">
@@ -78,10 +77,10 @@
             </div> --}}
 
             <div class="mt-4">
-                <x-button class="btn btn-success">
-                    {{ __('Submit') }}
-                </x-button>
-            </div>
+            <x-buttons.button class="btn btn-success">
+                {{ __('Submit') }}
+            </x-buttons.button>
+        </div>
         </form>
     </div>
      <!-- / Content -->
