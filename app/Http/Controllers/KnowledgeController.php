@@ -46,6 +46,7 @@ class KnowledgeController extends Controller
      */
     public function store(KnowledgeRequest $request)
     {   
+        dd($request);
         $knowledge = new Knowledge();
         $knowledge->title = $request->title;
         $knowledge->short_text = $request->short_text;
@@ -54,7 +55,7 @@ class KnowledgeController extends Controller
       
          // Valider les données du formulaire
         $validatedData = $request->validate([
-            'application_id' => 'required',
+         
             'module_id' => 'required',
             'title' => 'required',
             'short_text' => 'required',

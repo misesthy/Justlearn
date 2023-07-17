@@ -11,7 +11,6 @@ class KnowledgeRequest extends FormRequest
         return [
             'title'       => ['required', 'string'],
             'full_text'     => ['required', 'string'],
-            'application_id' => ['required', 'integer', 'exists:applications,id'],
             'module_id' => ['required', 'integer', 'exists:modules,id'],
         ];
     }
