@@ -17,11 +17,11 @@ class CreateKnowledgeTable extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('module_id')->constrained();
-            $table->foreignId('application_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('application_id')->constrained()->onDelete('cascade');
             $table->longText('short_text')->nullable();
             $table->longText('full_text');
             $table->string('file');
-            $table->integer('priority');
+            // $table->integer('priority');
             $table->timestamps();
             $table->softDeletes();
         });

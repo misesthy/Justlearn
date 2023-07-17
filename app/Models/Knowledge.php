@@ -15,6 +15,8 @@ class Knowledge extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $guarded = [];
+
     public function module(): BelongsTo
     {
         return $this->belongsTo(Module::class);
@@ -25,8 +27,8 @@ class Knowledge extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function application(): BelongsTo
-    {
-        return $this->belongsTo(Application::class);
-    }
+    // public function application(): BelongsTo
+    // {
+    //     return $this->belongsTo(Application::class);
+    // }
 }

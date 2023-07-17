@@ -48,6 +48,7 @@ class TicketController extends Controller
             ->latest()
             ->paginate();
 
+
         return view('tickets.index', compact('tickets'));
     }
 
@@ -171,16 +172,11 @@ class TicketController extends Controller
         return view('tickets.edit', compact('ticket', 'status'));
     }
 
-    public function update(TicketRequest $request, Ticket $ticket)
+    public function update(Request $request, Ticket $ticket)
     {
-        dd('bonjour');
-        // $ticket->update($request->only('status'));
-        $status = Status::find($request->input('status_id'));
-        $ticket->priority()->associate($status);
-
+        $ticket->status_id = $request->input('status_id');
         
-         dd($ticket);
-
+        $ticket->save();
         return redirect()->route('tickets.ticket');
     }
     

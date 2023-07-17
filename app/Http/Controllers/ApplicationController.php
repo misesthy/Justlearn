@@ -112,4 +112,5 @@ class ApplicationController extends Controller
         return redirect()->route('applications.index')->with('success', 'L\'application a été supprimée avec succès');
     }
     
+    
 }

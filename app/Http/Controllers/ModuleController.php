@@ -91,7 +91,7 @@ class ModuleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ModuleRequest $request, $id)
     {
         $module = Module::findOrFail($id);
         $module->name = $request->name;
@@ -115,5 +115,33 @@ class ModuleController extends Controller
         $module->delete();
 
         return redirect()->route('modules.index')->with('success', 'Le module a été supprimé avec succès');
+    }
+
+    public function getModulesByApplicationId(Request $request, $id)
+    {
+
+
+        $modules = Module::where("application_id", "=" , $id)->latest()->paginate();
+        
+
+        return response()->json([
+            'modules' => $modules->items(),
+            'pagination' => [
+                'total' => $modules->total(),
+                'per_page' => $modules->perPage(),
+                'current_page' => $modules->currentPage(),
+                'last_page' => $modules->lastPage(),
+                'from' => $modules->firstItem(),
+                'to' => $modules->lastItem(),
+            ],
+        ]);
+
+        // $module->name = $request->name;
+        // $module->description = $request->description;
+        // $module->application_id = $request->application_id;
+
+        // $module->save();
+
+        // return redirect()->route('modules.index')->with('success', 'Le module a été mis à jour avec succès');
     }
 }

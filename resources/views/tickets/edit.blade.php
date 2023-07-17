@@ -5,7 +5,7 @@
 
     <div class="rounded-lg bg-white p-4 shadow-md">
 
-        <form action="{{ route('tickets.update', $ticket) }}" method="POST">
+        <form action="{{ route('tickets.update', $ticket->id) }}" method="POST">
             @csrf
             @method('PATCH')
 

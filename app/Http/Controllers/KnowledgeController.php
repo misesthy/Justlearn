@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\KnowledgeRequest;
 use App\Models\Domain;
 use App\Models\Module;
+use App\Models\Knowledge;
 use App\Models\Application;
 use Illuminate\Http\Request;
-use App\Models\Knowledge;
+use App\Http\Requests\KnowledgeRequest;
 
 class KnowledgeController extends Controller
 {
@@ -45,20 +45,24 @@ class KnowledgeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(KnowledgeRequest $request)
-    {
+    {   
         $knowledge = new Knowledge();
         $knowledge->title = $request->title;
+        $knowledge->short_text = $request->short_text;
+        $knowledge->full_text = $request->full_text;
         $knowledge->module_id = $request->module_id;
       
          // Valider les données du formulaire
         $validatedData = $request->validate([
             'application_id' => 'required',
             'module_id' => 'required',
-            // Ajoutez d'autres règles de validation si nécessaire
+            'title' => 'required',
+            'short_text' => 'required',
         ]);
         
         // Créer la connaissance
-        $knowledge = Knowledge::create($validatedData);
+
+        // $knowledge = Knowledge::create($validatedData);
 
         $knowledge->save();
 

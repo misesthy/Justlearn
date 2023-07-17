@@ -54,9 +54,9 @@ Route::middleware('auth')->group(function () {
     // Route::post('tickets/upload', [TicketController::class, 'upload'])->name('tickets.upload');
     Route::post('tickets/storage', [TicketController::class, 'storage'])->name('tickets.storage');
     Route::get('tickets/{ticket}/edit', [TicketController::class, 'edit'])->name('tickets.edit');
-    Route::patch('tickets/{ticket}/update', [TicketController::class, 'update'])->name('tickets.update');
     Route::delete('tickets/{id}/destroy', [TicketController::class, 'destroy'])->name('tickets.destroy');
-    Route::resource('tickets', TicketController::class);
+    // Route::resource('tickets', TicketController::class);
+    Route::patch('tickets/{ticket}/update', [TicketController::class, 'update'])->name('tickets.update');
 
     Route::resource('services', ServiceController::class);
 
