@@ -24,7 +24,6 @@
                             <th>Titles</th>
                             <th>Descriptions</th>
                             <th>Modules</th>
-                            <th>Applications</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -36,24 +35,23 @@
                                 <td> {{ $knowledge->title ? $knowledge->title:''}}</td>
                                 <td> {{ $knowledge->short_text ? $knowledge->short_text:''}}</td>
                                 <td> {{ $knowledge->module->name }}</td>
-                                <td> {{ $knowledge->application->name }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{ route('knowledges.show', $module->id) }}">
+                                            <a class="dropdown-item" href="{{ route('knowledges.show', $knowledge->id) }}">
                                                 <i class="bx bx-show-alt me-1"></i>
                                                 Show
                                             </a>
-                                            <a class="dropdown-item" href="{{ route('knowledges.edit', $module->id) }}">
+                                            <a class="dropdown-item" href="{{ route('knowledges.edit', $knowledge->id) }}">
                                                 <i class="bx bx-edit-alt me-1"></i> 
                                                 Edit
                                             </a>
                                             <a class="dropdown-item">
                                                 <form
-                                                    action="{{ route('knowledges.destroy', $module->id) }}"
+                                                    action="{{ route('knowledges.destroy', $knowledge->id) }}"
                                                     method="POST"
                                                     onsubmit="return confirm('Are you sure?')"
                                                     style="display: inline-block;"

@@ -46,7 +46,6 @@ class KnowledgeController extends Controller
      */
     public function store(KnowledgeRequest $request)
     {   
-        dd($request);
         $knowledge = new Knowledge();
         $knowledge->title = $request->title;
         $knowledge->short_text = $request->short_text;
