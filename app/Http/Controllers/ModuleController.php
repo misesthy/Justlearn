@@ -145,3 +145,4 @@ class ModuleController extends Controller
         // return redirect()->route('modules.index')->with('success', 'Le module a été mis à jour avec succès');
     }
 }
+ 

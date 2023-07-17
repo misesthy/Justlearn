@@ -37,3 +37,4 @@ class CreateKnowledgeTable extends Migration
         Schema::dropIfExists('knowledge');
     }
 }
+ 

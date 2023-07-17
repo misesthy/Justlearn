@@ -130,3 +130,4 @@ class KnowledgeController extends Controller
         return redirect()->route('knowledges.index')->with('success', 'La connaissance a été supprimée avec succès');
     }
 }
+ 

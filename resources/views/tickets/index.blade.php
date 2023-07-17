@@ -87,6 +87,7 @@
                                         <td class="px-4 py-3 text-sm">
                                             {{  $ticket->status->name }}
                                         </td>
+
                                         <td class="px-4 py-3 text-sm">
                                             {{ $ticket->priority->name }}
                                         </td>
@@ -197,3 +198,4 @@
     </div>
     <!-- / Layout wrapper -->
 </x-app-layout>
+ 

@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('module_by_application/{id}', [ModuleController::class, 'getModulesByApplicationId'])->name('module.module_by_application');
+ 

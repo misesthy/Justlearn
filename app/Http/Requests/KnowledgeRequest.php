@@ -20,4 +20,5 @@ class KnowledgeRequest extends FormRequest
     {
         return true;
     }
-}
+} 
+ 

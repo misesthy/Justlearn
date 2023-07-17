@@ -229,3 +229,4 @@ class TicketController extends Controller
         return redirect()->route('tickets.show', $ticket);
     }
 }
+ 

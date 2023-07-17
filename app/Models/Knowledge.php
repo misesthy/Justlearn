@@ -32,3 +32,5 @@ class Knowledge extends Model
     //     return $this->belongsTo(Application::class);
     // }
 }
+
+ 
