@@ -4,13 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,15 +107,18 @@ Route::middleware('auth')->group(function () {
     Route::get('application/{id}/show', [ApplicationController::class, 'show'])->name('applications.show');
     Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
 
+
+    Route::get('/detail/{id}',[ResultController::class, 'show']);
+
+
     Route::get('/detail', function () {
         return view('knowledges.searchdetail');
     });
+    Route::get('/results',[SearchController::class, 'index']);
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('user', UserController::class)->except('show');
         
-        
-
         
 
     });

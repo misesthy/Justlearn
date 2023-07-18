@@ -68,7 +68,7 @@
             </form>
         </div><!-- #header-search -->
        
-        <ol class="breadcrumb breadcrumb-custom">
+        {{-- <ol class="breadcrumb breadcrumb-custom">
                 <li class="text">You are here:</li>
                 <li>
                     <a href="#">Home</a>
@@ -83,7 +83,7 @@
                     <i class="fas fa-chevron-right"></i>
                     How To Download Our iPad App
                 </li>
-            </ol>
+            </ol> --}}
         
     </div>
     <!-- .site-hero -->
@@ -94,15 +94,15 @@
                     <div id="content" class="site-content col-md-9">
                         <article class="hentry">
                             <header class="entry-header">
-                                <h1 class="entry-title">How To Download Our iPad App</h1>
+                                <h1 class="entry-title">{{ $knowlege->title }}</h1>
                                 <div class="entry-meta text-muted">
                                     <span class="date">
                                         <i class="fa fa-film fa-fw"></i>
-                                        <time datetime="2013-09-19T20:01:58+00:00">September 19, 2013 at 8:01 pm</time>
+                                        <time datetime="2013-09-19T20:01:58+00:00">{{ \Carbon\Carbon::parse($knowlege->create_at)->toDayDateTimeString() }}</time>
                                     </span>
                                     <span class="category">
                                         <i class="far fa-folder-open fa-fw"></i>
-                                        <a href="#">Mobile Apps</a>
+                                        <a href="#">{{ $knowlege->module->name}}</a>
                                     </span>
                                 </div>
                                 <!-- .entry-meta -->
@@ -124,9 +124,7 @@
                                         >
                                     </object>
                                 </div>
-                                <p>Nulla bibendum vel ipsum ut suscipit. Nunc eu massa quis odio sollicitudin feugiat. Maecenas sit amet nunc nec urna placerat convallis at sit amet sem. Aenean luctus, eros vitae lobortis aliquet, purus dui rutrum libero, quis scelerisque est ipsum ut dui. Donec ligula velit, tincidunt et nisi quis, porta varius augue. Morbi volutpat fringilla velit.</p>
-                                <p>Donec dapibus consectetur tempor. In tincidunt in purus sagittis suscipit. Aenean sit amet lorem turpis. Aliquam enim justo, laoreet in pharetra eu, semper at neque. Nunc posuere ipsum nulla, quis commodo urna laoreet nec. Sed lectus nunc, placerat ut dignissim ut, dictum sodales lacus. Duis blandit volutpat sapien a dapibus. Suspendisse tincidunt imperdiet nibh mollis malesuada.</p>
-                                <p>Phasellus feugiat lobortis libero quis laoreet. Quisque ac fringilla purus. Integer eleifend, arcu eu egestas vestibulum, libero magna rhoncus magna, id pellentesque diam ante rutrum arcu. In hac habitasse platea dictumst. In vestibulum turpis nunc.</p>
+                                <p>{{ $knowlege->full_text}}</p>
                             </div>
                             <!-- .entry-content -->
                         </article>
@@ -174,7 +172,7 @@
                                 </ul>
                             </section>
                             <!-- #section-categories -->
-                            <section id="section-tags" class="section">
+                            {{-- <section id="section-tags" class="section">
                                 <h2 class="section-title h4 clearfix">Tags</h2>
                                 <div class="tagcloud">
                                     <a href="#" class="btn btn-tag btn-sm">basic</a>
@@ -192,7 +190,7 @@
                                     <a href="#" class="btn btn-tag btn-sm">setting</a>
                                     <a href="#" class="btn btn-tag btn-sm">templates</a>
                                 </div>
-                            </section>
+                            </section> --}}
                             <!-- #section-tags -->
                         </div>
                     </div>
