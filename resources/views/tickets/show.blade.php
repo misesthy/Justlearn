@@ -51,7 +51,7 @@
                 <h4 class="mb-4 font-semibold text-gray-600">
                     status : 
                 </h4>
-                {{  $ticket->status()->first() ? $ticket->status()->first()->name:'' }}
+              <span>{{  $ticket->status()->first() ? $ticket->status()->first()->name:'' }}</span>  
             </p>
         </div>
         <div class="mb-4 col-md-6 rounded-lg bg-white p-4 shadow-xs">
@@ -59,7 +59,7 @@
                 <h4 class="mb-4 font-semibold text-gray-600">
                     Priority : 
                 </h4>
-                {{  $ticket->priority()->first() ? $ticket->priority()->first()->name:'' }}
+                <span style="color: {{ $ticket->priority->color }}">{{  $ticket->priority()->first() ? $ticket->priority()->first()->name:'' }}</span>
             </p>
         </div>
         <div class="mb-4 col-md-6 rounded-lg bg-white p-4 shadow-xs">
@@ -67,10 +67,11 @@
                 <h4 class="mb-4 font-semibold text-gray-600">
                     Categorie : 
                 </h4>
-                @foreach($ticket->categories as $category)
-                    {{ $category->name }}
-                    <br>
-            @endforeach
+                <ul style="list-style: disc;padding-left:50px">
+                    @foreach($ticket->categories as $category)
+                    <li> {{ $category->name }}</li>
+                @endforeach
+                </ul>
         </div>
         
         <div class="mb-4 col-md-6 rounded-lg bg-white p-4 shadow-xs">
@@ -142,7 +143,7 @@
             <script>
                 document.write(new Date().getFullYear());
             </script>
-            , made with ❤️ by
+            , made with  by
             <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Justlearn</a>
         </div>
         <div>

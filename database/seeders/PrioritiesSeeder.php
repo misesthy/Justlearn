@@ -22,9 +22,18 @@ class PrioritiesSeeder extends Seeder
 
         foreach($priorities as $priority)
         {
+            if($priority == 'Low'){
+                $color = '#6c757d';
+            }
+            if($priority == 'Medium'){
+                $color = '#ffc107';
+            }
+            if($priority == 'High'){
+                $color = '#dc3545';
+            }
             Priority::create([
                 'name'  => $priority,
-                'color' => $faker->hexcolor
+                'color' =>  $color 
             ]);
         }
     }

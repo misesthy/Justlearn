@@ -89,7 +89,10 @@
                                         </td>
 
                                         <td class="px-4 py-3 text-sm">
+                                            <span
+                                                    class="rounded-full bg-gray-50 px-2 py-2" style="background-color: {{ $ticket->priority->color }}; color:white">
                                             {{ $ticket->priority->name }}
+                                        </span>
                                         </td>
                                         <td class="px-4 py-3 text-sm">
                                             @foreach ($ticket->categories as $category)
@@ -173,7 +176,7 @@
                         <script>
                             document.write(new Date().getFullYear());
                         </script>
-                        , made with ❤️ by
+                        , made with  by
                         <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Justlearn</a>
                     </div>
                     <div>

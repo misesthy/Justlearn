@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Attribute;
 use App\Models\User;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileUpdateRequest;
-use Attribute;
 
 class ProfileController extends Controller
 {
     public function show()
-    {
-        return view('auth.profile');
+    {   
+        $services = auth()->user()->services()->distinct()->get();
+        
+        return view('auth.profile',compact('services'));
     }
 
     public function update(ProfileUpdateRequest $request)

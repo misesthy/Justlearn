@@ -72,6 +72,17 @@
                 </div>
               </div>
               <hr class="my-0" />
+              @hasrole('agent')
+              <div style="margin-left: 20px; margin-top: 20px">
+                <h6>Mes services:</h6> 
+                <ul class="pl-5" style="list-style: disc">
+                  @foreach ($services as $service)
+                    <li style="text-transform: uppercase">{{ $service->name }}</li>
+                  @endforeach
+                </ul>
+              </div>
+              <hr class="my-0" />
+              @endhasrole
               <div class="card-body">
                   
                   <div class="row">
@@ -132,7 +143,7 @@
             <script>
               document.write(new Date().getFullYear());
             </script>
-            , made with ❤️ by
+            , made with  by
             <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Justlearn</a>
           </div>
           <div>

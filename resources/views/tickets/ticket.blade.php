@@ -66,7 +66,7 @@
                                 <td class="px-4 py-3 text-sm">
                                     {{ $ticket->user->name }}
                                 </td>
-                                <td class="px-4 py-3 text-sm">
+                                <td class="px-4 py-3 text-sm" >
                                     {{  $ticket->status()->first() ? $ticket->status()->first()->name:'' }}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
@@ -135,7 +135,7 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                , made with ❤️ by
+                , made with  by
                 <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Justlearn</a>
             </div>
             <div>

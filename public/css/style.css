@@ -1,4 +1,9 @@
 table .rounded-full {
     display: inline-block;
     margin: 2px;
+    text-align: center;
+}
+
+nav+h2 {
+    margin-left: 25px;
 }
