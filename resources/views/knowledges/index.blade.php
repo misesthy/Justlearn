@@ -79,7 +79,7 @@
     <div class="site-hero clearfix">
             <div id="header-search" class="site-search clearfix">
                 <!-- #header-search -->
-                <form action="" method="get" class="search-form" role="search">
+                <form action="{{ route('search.index') }}" method="get" class="search-form" role="search">
                     <div class="form-border" style="border-radius: 0.9rem;">
                         <div class="form-inline">
                             <div class="form-group input-group" style="width: 100%;">
@@ -162,7 +162,7 @@
                                                 <li>
                                                     <i class="fa-li fa fa-list-alt fa-fw text-muted"></i>
                                                     <h3 class="h5">
-                                                        <a href="#">{{ $knowledge->title }}</a>
+                                                        <a href="{{route('knowledge.detail',$knowledge->id)}}">{{ $knowledge->title }}</a>
                                                     </h3>
                                                 </li>
                                             @endif

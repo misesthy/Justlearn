@@ -113,7 +113,7 @@ Route::middleware('auth')->group(function () {
     Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
 
 
-    Route::get('/detail/{id}',[ResultController::class, 'show']);
+    Route::get('/detail/{id}',[ResultController::class, 'show'])->name('knowledge.detail');
 
 
     Route::get('/detail', function () {
@@ -125,5 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::resource('user', UserController::class)->except('show');
     });
+
+    Route::get('search', [SearchController::class, 'index'])->name('search.index');
 
 }); 

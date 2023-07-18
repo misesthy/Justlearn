@@ -264,7 +264,7 @@
                                 @foreach ($results_knowleges as $results_knowlege)
                                     <div class="clearfix search-result">
                                         <!-- item -->
-                                        <h4><a href="#">{{ $results_knowlege->title }}</a></h4>
+                                        <h4><a href="{{route('knowledge.detail',$results_knowlege->id)}}">{{ $results_knowlege->title }}</a></h4>
                                         <small class="text-success">{{ $results_knowlege->module->name }}</small>
                                         <p>{{ $results_knowlege->short_text }}</p>
                                     </div><!-- /item -->

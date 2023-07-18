@@ -18,7 +18,6 @@ class KnowledgeController extends Controller
      */
     public function index()
     {
-        $modules = Module::all();
         $modules = Module::paginate(10);
         $knowledges = Knowledge::all();
 
@@ -61,6 +60,7 @@ class KnowledgeController extends Controller
         $knowledge->short_text = $request->short_text;
         $knowledge->full_text = $request->full_text;
         $knowledge->module_id = $request->module_id;
+        $knowledge->file = $request->file;
       
          // Valider les données du formulaire
         $validatedData = $request->validate([
@@ -89,7 +89,7 @@ class KnowledgeController extends Controller
     {
         $knowledge = Knowledge::findOrFail($id);
 
-        return view('knowledges.show', compact('knowledge'));
+        return view('knowledges.show', compact('knowledge','modules'));
     }
 
     /**

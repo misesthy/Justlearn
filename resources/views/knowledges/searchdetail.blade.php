@@ -110,18 +110,8 @@
                             <!-- .entry-header -->
                             <div class="entry-content clearfix">
                                 <div class="video-frame">
-                                    <object width="560" height="315">
-                                        <param name="movie" value="https://www.youtube.com/embed/rg_zwK_sSEY">
-                                        <param name="allowFullScreen" value="true">
-                                        <param name="allowscriptaccess" value="always">
-                                        <embed
-                                            src="https://www.youtube.com/embed/rg_zwK_sSEY"
-                                            type="application/x-shockwave-flash"
-                                            width="560"
-                                            height="315"
-                                            allowscriptaccess="always"
-                                            allowfullscreen="true"
-                                        >
+                                    {{-- {{ dd($knowlege) }} --}}
+                                    <img src="{{asset('/'.$knowlege->file) }}" width="560" height="315">
                                     </object>
                                 </div>
                                 <p>{{ $knowlege->full_text}}</p>
@@ -142,33 +132,17 @@
                                 </div>
                             </section>
                             <!-- #section-banner -->
-                            <section id="section-categories" class="section">
-                                <h2 class="section-title h4 clearfix">Categories</h2>
-                                <ul class="nav nav-pills nav-stacked nav-categories">
+                            <section id="section-modules" class="section">
+                                <h2 class="section-title h4 clearfix">Modules</h2>
+                                <ul class="nav nav-pills nav-stacked nav-categories list-group">
+                                    @foreach ($modules as $module)
                                     <li class="d-flex justify-content-between align-items-center">
                                         <a class="list-group-item list-group-item-action" href="#">
-                                            <span class="badge badge-pill pull-right float-right">6</span>
-                                            Account Settings
+                                            <span class="badge badge-pill pull-right float-right">{{ $module->knowledges()->count() }}</span>
+                                            {{ $module->name }}
                                         </a>
                                     </li>
-                                    <li class="d-flex justify-content-between align-items-center">
-                                        <a class="list-group-item list-group-item-action" href="#">
-                                            <span class="badge badge-pill pull-right float-right">5</span>
-                                            API Questions
-                                        </a>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center">
-                                        <a class="list-group-item list-group-item-action" href="#">
-                                            <span class="badge badge-pill pull-right float-right">3</span>
-                                            Customization
-                                        </a>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center">
-                                        <a class="list-group-item list-group-item-action" href="#">
-                                            <span class="badge badge-pill pull-right float-right">11</span>
-                                            Mobile Apps
-                                        </a>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </section>
                             <!-- #section-categories -->

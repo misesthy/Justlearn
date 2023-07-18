@@ -63,7 +63,7 @@
                         <x-input-error :messages="$errors->get('full_text')" class="mt-2" />
                     </div>
 
-                    {{-- <div class="button-wrapper">
+                    <div class="button-wrapper mt-5">
                         <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                             <span class="d-none d-sm-block">Upload file</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
@@ -75,7 +75,7 @@
                         </button>
 
                         <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
-                    </div> --}}
+                    </div>
 
                     <button type="submit" class="btn btn-primary mt-5">Enregistrer</button>
                 </form>
