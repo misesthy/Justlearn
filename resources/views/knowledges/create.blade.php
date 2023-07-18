@@ -11,7 +11,7 @@
 
             <div class="rounded-lg bg-white p-4 shadow-md">
 
-                <form action="{{ route('knowledges.store') }}" method="POST">
+                <form action="{{ route('knowledges.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     {{--         
             <div class="form-group">

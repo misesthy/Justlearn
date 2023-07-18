@@ -60,7 +60,12 @@ class KnowledgeController extends Controller
         $knowledge->short_text = $request->short_text;
         $knowledge->full_text = $request->full_text;
         $knowledge->module_id = $request->module_id;
-        $knowledge->file = $request->file;
+        if($request->hasFile('file')){
+            $file = $request->file('file');
+            $knowledge->file = $file->store('uploads', 'public');
+            // dd($knowledge);
+        }
+        
       
          // Valider les données du formulaire
         $validatedData = $request->validate([

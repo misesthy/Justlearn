@@ -111,8 +111,7 @@
                             <div class="entry-content clearfix">
                                 <div class="video-frame">
                                     {{-- {{ dd($knowlege) }} --}}
-                                    <img src="{{asset('/'.$knowlege->file) }}" width="560" height="315">
-                                    </object>
+                                    <img src="{{asset('/storage/'.$knowlege->file) }}" width="560" height="315">
                                 </div>
                                 <p>{{ $knowlege->full_text}}</p>
                             </div>
