@@ -26,7 +26,7 @@ use App\Http\Controllers\ApplicationController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('dashboard'));
 });
 
 
@@ -59,6 +59,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('tickets/{id}/destroy', [TicketController::class, 'destroy'])->name('tickets.destroy');
     // Route::resource('tickets', TicketController::class);
     Route::patch('tickets/{ticket}/update', [TicketController::class, 'update'])->name('tickets.update');
+
+
+    Route::get('tickets/opened', [TicketController::class, 'opened'])->name('tickets.opened');
+    Route::get('tickets/closed', [TicketController::class, 'closed'])->name('tickets.closed');
 
     Route::resource('services', ServiceController::class);
 
@@ -127,5 +131,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('search', [SearchController::class, 'index'])->name('search.index');
+
+
 
 }); 

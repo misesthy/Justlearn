@@ -145,12 +145,12 @@
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('open') ? 'active': '' }}">
-                    <a href="extended-ui-text-divider.html" class="menu-link">
+                    <a href="{{ route('tickets.opened') }}" class="menu-link">
                         <div data-i18n="Ticket Open">Ticket Opened</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('close') ? 'active': '' }}">
-                    <a href="extended-ui-text-divider.html" class="menu-link">
+                    <a href="{{ route('tickets.closed') }}" class="menu-link">
                         <div data-i18n="Ticket Close">Ticket Closed</div>
                     </a>
                 </li>

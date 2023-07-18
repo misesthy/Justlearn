@@ -7,6 +7,13 @@
             <span class="text-muted fw-light">Feedbacks /</span> Create Feedback
         </h2>
 
+        <div style="margin-bottom:50px">
+            <p><b>Ticket title :</b> {{ $ticket->title }}</p>
+            <p><b>Ticket message :</b> {{ $ticket->message }}</p>
+            <p><b>Ticket status :</b> <span style="color: {{ $ticket->status->name == 'Closed' ? '#f00' : ($ticket->status->name == 'Open' ? '#006400' : '')  }}; font-weight:{{ $ticket->status->name == 'Closed' ? '700' : ($ticket->status->name == 'Open' ? '700' : '')  }}">{{  $ticket->status->name }}</span></p>
+            {{-- <hr> --}}
+        </div>
+
 
 <div class="rounded-lg bg-white p-4 shadow-md">
 

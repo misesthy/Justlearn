@@ -228,5 +228,38 @@ class TicketController extends Controller
 
         return redirect()->route('tickets.show', $ticket);
     }
+
+
+
+    public function opened(Request $request): View
+    { 
+            $tickets = Ticket::with('services', 'categories', 'priority','user')
+            ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
+                $query->where('user_id', auth()->user()->id);
+                
+            })
+            ->whereHas('status', function ($query) {
+                $query->where('name', 'Open');
+            })
+            ->latest()
+            ->paginate();
+
+
+        return view('tickets.open', compact('tickets'));
+    }
+    public function closed(Request $request): View
+    { 
+            $tickets = Ticket::with('services', 'categories', 'priority','user')
+            ->when(auth()->user()->hasRole('user|agent'), function (Builder $query) {
+                $query->where('user_id', auth()->user()->id);
+            })->whereHas('status', function ($query) {
+                $query->where('name', 'Closed');
+            })
+            ->latest()
+            ->paginate();
+
+
+        return view('tickets.closed', compact('tickets'));
+    }
 }
  

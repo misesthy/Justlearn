@@ -185,16 +185,19 @@ class FeedbackController extends Controller
         // $feedback = $feedback::with('user:id,name,email')
         //     ->with('ticket')->get;
 
+        
         $feedbacks = [Feedback::findOrFail($id)];
+        if($feedbacks[0]){
+            $ticket = Ticket::Where('id','=',$feedbacks[0]->ticket_id)->first();
+        }
 
-        return view('feedbacks.show', compact('feedbacks'));
+        return view('feedbacks.show', compact('feedbacks','ticket'));
     }
     public function showAll($id): View
     {   
         $ticket = Ticket::findOrFail($id);
         $feedbacks = Feedback::where('ticket_id', '=', $ticket->id)->latest()->paginate();
-
-        return view('feedbacks.show', compact('feedbacks'));
+        return view('feedbacks.show', compact('feedbacks','ticket'));
     }
 
     public function edit($id): View

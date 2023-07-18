@@ -7,3 +7,8 @@ table .rounded-full {
 nav+h2 {
     margin-left: 25px;
 }
+
+table a {
+    display: inline-block;
+    margin: 2px;
+}
