@@ -73,6 +73,10 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('feedbacks', KnowledgeController::class);
 
+    // Route::get('/knowledges/{module}', function(){
+    //     return dd('bonjour');
+    // })->name('knowledges.viewAll');
+    
     Route::get('knowledge/create', [KnowledgeController::class, 'create'])->name('knowledges.create');
     Route::get('knowledge/index', [KnowledgeController::class, 'index'])->name('knowledges.index');
     Route::get('knowledge/{id}/show', [KnowledgeController::class, 'show'])->name('knowledges.show');
@@ -80,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('knowledge/{id}/edit', [KnowledgeController::class, 'edit'])->name('knowledges.edit');
     Route::put('knowledge/{id}/update', [KnowledgeController::class, 'update'])->name('knowledges.update');
     Route::delete('knowledge/{id}/destroy', [KnowledgeController::class, 'destroy'])->name('knowledges.destroy');
+    Route::get('/knowledge/{module}', [KnowledgeController::class, 'viewAll'])->name('knowledges.view');
 
     Route::get('modules', [ModuleController::class, 'index'])->name('modules.index');
     Route::get('module/create', [ModuleController::class, 'create'])->name('modules.create');
@@ -108,6 +113,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/detail', function () {
         return view('knowledges.searchdetail');
     });
+    
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('user', UserController::class)->except('show');

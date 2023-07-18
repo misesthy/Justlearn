@@ -18,9 +18,11 @@ class KnowledgeController extends Controller
      */
     public function index()
     {
+        $modules = Module::all();
+        $modules = Module::paginate(10);
         $knowledges = Knowledge::all();
 
-        return view('knowledges.index', compact('knowledges'));
+        return view('knowledges.index', compact('knowledges','modules'));
     }
 
      /**
@@ -38,6 +40,14 @@ class KnowledgeController extends Controller
         return view('knowledges.create', compact('applications','modules'));
     }
 
+    public function viewAll($moduleId)
+    {
+        $module = Module::findOrFail($moduleId);
+        
+        $knowledges = $module->knowledges;
+
+        return view('knowledges.viewAll', compact('module', 'knowledges'));
+    }
     /**
      * Store a newly created resource in storage.
      *
