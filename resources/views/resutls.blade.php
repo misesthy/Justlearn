@@ -245,7 +245,7 @@
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
             <h2 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Search /</span> Results for: <span>snap </span>
+                <span class="text-muted fw-light">Search /</span> Results for: <span>"{{ request()->s }}"</span>
             </h2>
 
             <div class="conainer-result" style="display: flex; column-gap:20px;">

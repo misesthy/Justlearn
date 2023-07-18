@@ -4,6 +4,7 @@
 td.rounded-lg {
     display: inline-block;
 }
+
 .legend-label {
     font-weight: bold;
     color: #333;
@@ -19,7 +20,7 @@ td.rounded-lg {
 }
 
 .legend ul {
-    display: flex ;
+    display: flex;
     flex-wrap: wrap;
 }
 
@@ -29,7 +30,9 @@ td.rounded-lg {
     margin: 10px 0;
 }
 
+
 /* Styles pour la vue du module */
+
 .module-view {
     margin: 20px;
     padding: 20px;
