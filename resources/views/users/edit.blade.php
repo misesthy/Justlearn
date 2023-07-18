@@ -18,7 +18,7 @@
 
                   <div class="d-flex align-items-start align-items-sm-center gap-4">
                       <img
-                      src=" /assets/img/avatars/{{ $user->image }}"
+                      src=" /assets/img/avatars/{{ $user->avatar }}"
                       alt="user-avatar"
                       class="d-block rounded"
                       height="100"

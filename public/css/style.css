@@ -12,3 +12,9 @@ table a {
     display: inline-block;
     margin: 2px;
 }
+
+.video-frame img {
+height: 315px ;
+width: 560px;
+object-fit: cover;
+}

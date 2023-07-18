@@ -28,24 +28,24 @@ class ProfileController extends Controller
         }
         if ($request->hasFile("image")) {
             
-            if (File::exists("assets/img/avatars/" . auth()->user()->image)) {
-                File::delete("assets/img/avatars/" . auth()->user()->image);
+            if (File::exists("assets/img/avatars/" . auth()->user()->avatar)) {
+                File::delete("assets/img/avatars/" . auth()->user()->avatar);
             }
             
             $file = $request->file("image");
-            $attributes['image'] = time() . "_" . $file->getClientOriginalName();
-            $file->move(("assets/img/avatars/"), $attributes ['image']);
+            $attributes['avatar'] = time() . "_" . $file->getClientOriginalName();
+            $file->move(("assets/img/avatars/"), $attributes ['avatar']);
             
         }
         
 
         $user = User::findOrFail(auth()->user()->id);
-        $user->image = $attributes['image'];
+        $user->avatar = $attributes['avatar'];
         $user->save();
         $user->update($attributes);
 
 
-        return redirect()->back()->with('success', 'Profile updated.');
+        return redirect()->route('dashboard')->with('success', 'Profile updated.');
     }
 
 }

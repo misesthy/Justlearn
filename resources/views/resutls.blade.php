@@ -314,7 +314,7 @@
                                         <!-- item -->
                                         <h4><a href="{{ route('feedbacks.showAll', $results_ticket) }}">{{ $results_ticket->title }}</a></h4>
                                         {{-- <small class="text-success">{{ dd($results_ticket->service)}}</small> --}}
-                                        <p>{{ $results_knowlege->short_text }}</p>
+                                        <p>{{ $results_ticket->message }}</p>
                                     </div><!-- /item -->
                                 @endforeach
 
@@ -324,7 +324,7 @@
                                 @if ($results_tickets->hasPages())
                                     <div
                                         class="border-t bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500 sm:grid-cols-9">
-                                        {{ $results_knowleges->withQueryString()->links() }}
+                                        {{ $results_tickets->withQueryString()->links() }}
                                     </div>
                                 @endif
 
